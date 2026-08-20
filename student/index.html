@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso Personal | Generales de Villa</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="panel" style="max-width:620px; margin-top:6vh;">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">ACCESO PERSONAL</p>
+          <h1 style="font-size:2rem;">Capacitación Interna</h1>
+        </div>
+        <a class="button secondary" href="../">Volver</a>
+      </div>
+
+      <p class="lead" style="margin-left:0;">Ingresa con tu nombre completo y tu código asignado GV-##. La validación real se conectará a la base de datos en la siguiente etapa.</p>
+
+      <form class="form-grid" id="student-login-form">
+        <div>
+          <label for="student-name">Nombre completo</label>
+          <input id="student-name" name="student-name" autocomplete="name" required>
+        </div>
+        <div>
+          <label for="student-code">Código de acceso</label>
+          <input id="student-code" name="student-code" placeholder="GV-01" pattern="GV-[0-9]{2}" required>
+        </div>
+        <button type="submit">Ingresar</button>
+      </form>
+
+      <p id="student-demo-message" class="footer-note" hidden>Acceso de demostración: la autenticación se conectará a Supabase.</p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('student-login-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      document.getElementById('student-demo-message').hidden = false;
+    });
+  </script>
+</body>
+</html>
