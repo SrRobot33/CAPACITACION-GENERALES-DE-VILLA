@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructor / Admin | Generales de Villa</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="panel" style="max-width:720px; margin-top:5vh;">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">INSTRUCTOR / ADMIN</p>
+          <h1 style="font-size:2rem;">Panel de control</h1>
+        </div>
+        <a class="button secondary" href="../">Volver</a>
+      </div>
+
+      <p class="lead" style="margin-left:0;">Acceso protegido para gestión de empleados, progreso, autorizaciones de reintento y certificados.</p>
+
+      <form class="form-grid" id="staff-login-form">
+        <div>
+          <label for="staff-user">Usuario</label>
+          <input id="staff-user" name="staff-user" autocomplete="username" required>
+        </div>
+        <div>
+          <label for="staff-password">Contraseña</label>
+          <input id="staff-password" name="staff-password" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit">Ingresar al panel</button>
+      </form>
+
+      <p id="staff-demo-message" class="footer-note" hidden>Acceso de demostración: usuarios y roles se conectarán a Supabase.</p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('staff-login-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      document.getElementById('staff-demo-message').hidden = false;
+    });
+  </script>
+</body>
+</html>
