@@ -1,1 +1,1071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
+  <title>
+    Lección | Generales de Villa
+  </title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d0d0d;
+      --panel: #181818;
+      --panel-2: #202020;
+      --border: #343434;
+      --text: #f4f4f4;
+      --muted: #a3a3a3;
+      --gold: #c59a43;
+      --gold-hover: #ddb05b;
+      --green: #4caf50;
+      --red: #d9534f;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        linear-gradient(
+          180deg,
+          #171717 0,
+          #0b0b0b 320px
+        );
+      color: var(--text);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14, 14, 14, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner {
+      width: min(1000px, 100%);
+      margin: auto;
+      min-height: 70px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 3px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .back-button {
+      border: 1px solid #454545;
+      background: transparent;
+      color: #ddd;
+      border-radius: 9px;
+      padding: 10px 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      border-color: var(--gold);
+    }
+
+    .container {
+      width: min(900px, 100%);
+      margin: auto;
+      padding: 32px 20px 60px;
+    }
+
+    .loading {
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 4px solid #303030;
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error-box {
+      display: none;
+      max-width: 650px;
+      margin: 70px auto;
+      border: 1px solid rgba(217, 83, 79, 0.4);
+      background: rgba(217, 83, 79, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .error-box h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .error-box p {
+      color: #e7b5b3;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .error-box button {
+      border: none;
+      background: var(--gold);
+      color: #111;
+      border-radius: 9px;
+      padding: 11px 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    #lessonPage {
+      display: none;
+    }
+
+    .lesson-header {
+      margin-bottom: 22px;
+    }
+
+    .lesson-module {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .lesson-header h1 {
+      font-size: clamp(25px, 5vw, 36px);
+      line-height: 1.2;
+      margin-bottom: 9px;
+    }
+
+    .lesson-status {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .content-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      overflow-wrap: break-word;
+    }
+
+    .content-card h1,
+    .content-card h2,
+    .content-card h3 {
+      line-height: 1.3;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .content-card h1:first-child,
+    .content-card h2:first-child,
+    .content-card h3:first-child {
+      margin-top: 0;
+    }
+
+    .content-card p {
+      margin-bottom: 14px;
+    }
+
+    .content-card ul,
+    .content-card ol {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .content-card li {
+      margin-bottom: 7px;
+    }
+
+    .content-card table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+    }
+
+    .content-card th,
+    .content-card td {
+      border: 1px solid #3e3e3e;
+      padding: 9px;
+      text-align: left;
+    }
+
+    .content-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .secondary-button,
+    .primary-button {
+      min-height: 48px;
+      border-radius: 10px;
+      padding: 0 18px;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .secondary-button {
+      border: 1px solid #444;
+      background: #1d1d1d;
+      color: #eee;
+    }
+
+    .primary-button {
+      border: none;
+      background: var(--gold);
+      color: #111;
+      margin-left: auto;
+    }
+
+    .primary-button:hover {
+      background: var(--gold-hover);
+    }
+
+    .primary-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .completed-box {
+      display: none;
+      margin-bottom: 18px;
+      padding: 13px 15px;
+      border: 1px solid rgba(76, 175, 80, 0.35);
+      background: rgba(76, 175, 80, 0.1);
+      color: #b9e9bb;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .topbar-inner {
+        padding: 10px 14px;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .container {
+        padding: 24px 14px 45px;
+      }
+
+      .content-card {
+        padding: 21px 17px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .secondary-button,
+      .primary-button {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <div class="brand">
+        <div class="brand-mark">
+          GV
+        </div>
+
+        <div>
+          <strong>
+            Generales de Villa
+          </strong>
+
+          <span>
+            Capacitación Interna
+          </span>
+        </div>
+      </div>
+
+      <button
+        id="backTopButton"
+        class="back-button"
+        type="button"
+      >
+        Mi capacitación
+      </button>
+
+    </div>
+  </header>
+
+
+  <main class="container">
+
+    <section
+      id="loadingScreen"
+      class="loading"
+    >
+      <div class="spinner"></div>
+
+      <div>
+        Cargando lección...
+      </div>
+    </section>
+
+
+    <section
+      id="errorBox"
+      class="error-box"
+    >
+      <h2>
+        No fue posible abrir esta lección
+      </h2>
+
+      <p id="errorText">
+        Intenta nuevamente.
+      </p>
+
+      <button
+        id="errorButton"
+        type="button"
+      >
+        VOLVER
+      </button>
+    </section>
+
+
+    <section id="lessonPage">
+
+      <header class="lesson-header">
+
+        <div
+          id="moduleLabel"
+          class="lesson-module"
+        >
+          Lección
+        </div>
+
+        <h1 id="lessonTitle">
+          Lección
+        </h1>
+
+        <div
+          id="lessonStatus"
+          class="lesson-status"
+        ></div>
+
+      </header>
+
+
+      <div
+        id="completedBox"
+        class="completed-box"
+      >
+        Esta lección ya está completada.
+        Puedes repasarla cuando quieras.
+      </div>
+
+
+      <article
+        id="lessonContent"
+        class="content-card"
+      ></article>
+
+
+      <div class="actions">
+
+        <button
+          id="dashboardButton"
+          class="secondary-button"
+          type="button"
+        >
+          VOLVER AL CURSO
+        </button>
+
+
+        <button
+          id="completeButton"
+          class="primary-button"
+          type="button"
+        >
+          COMPLETAR LECCIÓN
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACION
+    // =====================================================
+
+    const EDGE_BASE_URL =
+      "https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+
+    const LESSON_URL =
+      `${EDGE_BASE_URL}/employee-lesson`;
+
+    const COMPLETE_URL =
+      `${EDGE_BASE_URL}/employee-complete-lesson`;
+
+    const SESSION_KEY =
+      "gv_employee_session";
+
+
+    // =====================================================
+    // ELEMENTOS
+    // =====================================================
+
+    const loadingScreen =
+      document.getElementById("loadingScreen");
+
+    const errorBox =
+      document.getElementById("errorBox");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const lessonPage =
+      document.getElementById("lessonPage");
+
+    const moduleLabel =
+      document.getElementById("moduleLabel");
+
+    const lessonTitle =
+      document.getElementById("lessonTitle");
+
+    const lessonStatus =
+      document.getElementById("lessonStatus");
+
+    const lessonContent =
+      document.getElementById("lessonContent");
+
+    const completeButton =
+      document.getElementById("completeButton");
+
+    const completedBox =
+      document.getElementById("completedBox");
+
+
+    // =====================================================
+    // ESTADO
+    // =====================================================
+
+    let currentLessonId = null;
+    let currentLesson = null;
+
+
+    // =====================================================
+    // UTILIDADES
+    // =====================================================
+
+    function getToken() {
+      return localStorage.getItem(
+        SESSION_KEY
+      );
+    }
+
+
+    function clearSession() {
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      localStorage.removeItem(
+        "gv_employee_session_expires"
+      );
+    }
+
+
+    function goToLogin() {
+      window.location.href =
+        "./index.html";
+    }
+
+
+    function goToDashboard() {
+      window.location.href =
+        "./dashboard.html";
+    }
+
+
+    function getLessonIdFromUrl() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      return params.get("id");
+    }
+
+
+    function normalizeStatus(
+      value
+    ) {
+      return String(
+        value ?? ""
+      )
+        .trim()
+        .toLowerCase();
+    }
+
+
+    function setError(
+      message
+    ) {
+
+      loadingScreen.style.display =
+        "none";
+
+      lessonPage.style.display =
+        "none";
+
+      errorBox.style.display =
+        "block";
+
+      errorText.textContent =
+        message ||
+        "No fue posible cargar la lección.";
+    }
+
+
+    // =====================================================
+    // MOSTRAR LECCION
+    // =====================================================
+
+    function renderLesson(
+      data
+    ) {
+
+      const lesson =
+        data.lesson ||
+        data.data?.lesson ||
+        data;
+
+
+      currentLesson =
+        lesson;
+
+
+      const title =
+        lesson.title ??
+        lesson.lesson_title ??
+        "Lección";
+
+
+      const moduleNumber =
+        lesson.module_position ??
+        lesson.module_number ??
+        lesson.module?.position ??
+        lesson.module?.number ??
+        "";
+
+
+      const lessonNumber =
+        lesson.position ??
+        lesson.lesson_number ??
+        lesson.number ??
+        "";
+
+
+      const status =
+        normalizeStatus(
+          lesson.status
+        );
+
+
+      const content =
+        lesson.content_html ??
+        lesson.content ??
+        lesson.html ??
+        "";
+
+
+      lessonTitle.textContent =
+        title;
+
+
+      if (
+        moduleNumber &&
+        lessonNumber
+      ) {
+
+        moduleLabel.textContent =
+          `Módulo ${moduleNumber} · Lección ${moduleNumber}.${lessonNumber}`;
+
+      } else if (
+        lessonNumber
+      ) {
+
+        moduleLabel.textContent =
+          `Lección ${lessonNumber}`;
+
+      } else {
+
+        moduleLabel.textContent =
+          "Contenido de capacitación";
+
+      }
+
+
+      lessonStatus.textContent =
+        status === "completed"
+          ? "Lección completada"
+          : "Lección disponible";
+
+
+      lessonContent.innerHTML =
+        content ||
+        "<p>Esta lección no contiene contenido disponible.</p>";
+
+
+      if (
+        status === "completed"
+      ) {
+
+        completedBox.style.display =
+          "block";
+
+        completeButton.textContent =
+          "VOLVER AL CURSO";
+
+        completeButton.disabled =
+          false;
+
+        completeButton.dataset.mode =
+          "dashboard";
+
+      } else {
+
+        completedBox.style.display =
+          "none";
+
+        completeButton.textContent =
+          "COMPLETAR LECCIÓN";
+
+        completeButton.disabled =
+          false;
+
+        completeButton.dataset.mode =
+          "complete";
+
+      }
+
+
+      loadingScreen.style.display =
+        "none";
+
+      errorBox.style.display =
+        "none";
+
+      lessonPage.style.display =
+        "block";
+
+    }
+
+
+    // =====================================================
+    // CARGAR LECCION
+    // =====================================================
+
+    async function loadLesson() {
+
+      const token =
+        getToken();
+
+
+      if (!token) {
+
+        goToLogin();
+
+        return;
+
+      }
+
+
+      currentLessonId =
+        getLessonIdFromUrl();
+
+
+      if (!currentLessonId) {
+
+        setError(
+          "No se indicó qué lección deseas abrir."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            LESSON_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token,
+
+                  lesson_id:
+                    currentLessonId
+                })
+            }
+          );
+
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          throw new Error(
+            "El servidor devolvió una respuesta inválida."
+          );
+
+        }
+
+
+        if (
+          response.status === 401 ||
+          data.authenticated === false
+        ) {
+
+          clearSession();
+
+          goToLogin();
+
+          return;
+
+        }
+
+
+        if (
+          !response.ok ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data.message ||
+            "No fue posible abrir esta lección."
+          );
+
+        }
+
+
+        renderLesson(
+          data
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "employee-lesson:",
+          error
+        );
+
+
+        setError(
+          error.message ||
+          "No fue posible conectar con el servidor."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // COMPLETAR LECCION
+    // =====================================================
+
+    async function completeLesson() {
+
+      const mode =
+        completeButton.dataset.mode;
+
+
+      if (
+        mode === "dashboard"
+      ) {
+
+        goToDashboard();
+
+        return;
+
+      }
+
+
+      const token =
+        getToken();
+
+
+      if (
+        !token ||
+        !currentLessonId
+      ) {
+
+        goToLogin();
+
+        return;
+
+      }
+
+
+      completeButton.disabled =
+        true;
+
+      completeButton.textContent =
+        "GUARDANDO...";
+
+
+      try {
+
+        const response =
+          await fetch(
+            COMPLETE_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token,
+
+                  lesson_id:
+                    currentLessonId
+                })
+            }
+          );
+
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          throw new Error(
+            "El servidor devolvió una respuesta inválida."
+          );
+
+        }
+
+
+        if (
+          response.status === 401 ||
+          data.authenticated === false
+        ) {
+
+          clearSession();
+
+          goToLogin();
+
+          return;
+
+        }
+
+
+        if (
+          !response.ok ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data.message ||
+            "No fue posible completar la lección."
+          );
+
+        }
+
+
+        completedBox.style.display =
+          "block";
+
+        lessonStatus.textContent =
+          "Lección completada";
+
+        completeButton.disabled =
+          false;
+
+        completeButton.textContent =
+          "VOLVER AL CURSO";
+
+        completeButton.dataset.mode =
+          "dashboard";
+
+
+      } catch (error) {
+
+        console.error(
+          "employee-complete-lesson:",
+          error
+        );
+
+
+        completeButton.disabled =
+          false;
+
+        completeButton.textContent =
+          "COMPLETAR LECCIÓN";
+
+
+        alert(
+          error.message ||
+          "No fue posible guardar tu progreso."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // EVENTOS
+    // =====================================================
+
+    document
+      .getElementById(
+        "backTopButton"
+      )
+      .addEventListener(
+        "click",
+        goToDashboard
+      );
+
+
+    document
+      .getElementById(
+        "dashboardButton"
+      )
+      .addEventListener(
+        "click",
+        goToDashboard
+      );
+
+
+    document
+      .getElementById(
+        "errorButton"
+      )
+      .addEventListener(
+        "click",
+        goToDashboard
+      );
+
+
+    completeButton.addEventListener(
+      "click",
+      completeLesson
+    );
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    loadLesson();
+
+  </script>
+
+</body>
+</html>
