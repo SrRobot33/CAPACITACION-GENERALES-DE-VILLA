@@ -1,45 +1,822 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso Personal | Generales de Villa</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="description"
+    content="Plataforma de capacitación interna de Restaurante Generales de Villa"
+  />
+
+  <title>
+    Acceso del Personal | Generales de Villa
+  </title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #111111;
+      --panel: #1a1a1a;
+      --panel-light: #232323;
+      --border: #333333;
+
+      --text: #f5f5f5;
+      --muted: #a7a7a7;
+
+      --gold: #c59a43;
+      --gold-hover: #d8ad56;
+
+      --danger: #d9534f;
+      --success: #4caf50;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at top,
+          #252525 0%,
+          #151515 40%,
+          #0b0b0b 100%
+        );
+
+      color: var(--text);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 24px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-mark {
+      width: 92px;
+      height: 92px;
+
+      margin: 0 auto 16px;
+
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 2px;
+
+      color: var(--gold);
+
+      background:
+        linear-gradient(
+          145deg,
+          #222,
+          #111
+        );
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .brand h1 {
+      font-size: 25px;
+      line-height: 1.2;
+      margin-bottom: 7px;
+    }
+
+    .brand p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .login-card {
+      width: 100%;
+
+      background:
+        rgba(26, 26, 26, 0.97);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 30px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.42);
+    }
+
+    .login-card h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .login-card .subtitle {
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.5;
+
+      margin-bottom: 25px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      margin-bottom: 8px;
+
+      color: #dddddd;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+
+      border:
+        1px solid #3c3c3c;
+
+      border-radius: 10px;
+
+      background: #101010;
+
+      color: white;
+
+      padding:
+        0 14px;
+
+      font-size: 16px;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color:
+        var(--gold);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(197, 154, 67, 0.12);
+    }
+
+    input::placeholder {
+      color: #707070;
+    }
+
+    #accessCode {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .button {
+      width: 100%;
+      min-height: 52px;
+
+      border: none;
+      border-radius: 10px;
+
+      background:
+        var(--gold);
+
+      color: #111111;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        transform 0.1s ease;
+
+      margin-top: 4px;
+    }
+
+    .button:hover {
+      background:
+        var(--gold-hover);
+    }
+
+    .button:active {
+      transform:
+        translateY(1px);
+    }
+
+    .button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+
+      margin-top: 18px;
+
+      padding: 12px 14px;
+
+      border-radius: 9px;
+
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .message.error {
+      display: block;
+
+      color: #ffd4d2;
+
+      background:
+        rgba(217, 83, 79, 0.14);
+
+      border:
+        1px solid
+        rgba(217, 83, 79, 0.35);
+    }
+
+    .message.success {
+      display: block;
+
+      color: #d8f5da;
+
+      background:
+        rgba(76, 175, 80, 0.14);
+
+      border:
+        1px solid
+        rgba(76, 175, 80, 0.35);
+    }
+
+    .security-note {
+      margin-top: 22px;
+
+      padding-top: 18px;
+
+      border-top:
+        1px solid #303030;
+
+      color:
+        var(--muted);
+
+      font-size: 12px;
+      line-height: 1.55;
+
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+
+      margin-top: 22px;
+
+      color: #737373;
+
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .loading-text {
+      display: none;
+    }
+
+    .button.loading .normal-text {
+      display: none;
+    }
+
+    .button.loading .loading-text {
+      display: inline;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+      }
+
+      .page {
+        margin-top: 28px;
+      }
+
+      .login-card {
+        padding: 24px 20px;
+      }
+
+      .brand-mark {
+        width: 82px;
+        height: 82px;
+      }
+
+      .brand h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <main class="page-shell">
-    <section class="panel" style="max-width:620px; margin-top:6vh;">
-      <div class="topbar">
-        <div>
-          <p class="eyebrow">ACCESO PERSONAL</p>
-          <h1 style="font-size:2rem;">Capacitación Interna</h1>
-        </div>
-        <a class="button secondary" href="../">Volver</a>
+
+  <main class="page">
+
+    <header class="brand">
+
+      <div class="brand-mark">
+        GV
       </div>
 
-      <p class="lead" style="margin-left:0;">Ingresa con tu nombre completo y tu código asignado GV-##. La validación real se conectará a la base de datos en la siguiente etapa.</p>
+      <h1>
+        Generales de Villa
+      </h1>
 
-      <form class="form-grid" id="student-login-form">
-        <div>
-          <label for="student-name">Nombre completo</label>
-          <input id="student-name" name="student-name" autocomplete="name" required>
+      <p>
+        Programa de Capacitación Interna
+        <br />
+        Manejo Higiénico y Seguridad Alimentaria
+      </p>
+
+    </header>
+
+
+    <section class="login-card">
+
+      <h2>
+        Acceso del Personal
+      </h2>
+
+      <p class="subtitle">
+        Ingresa tu nombre completo y el código
+        asignado por el Instructor.
+      </p>
+
+
+      <form id="loginForm">
+
+        <div class="field">
+
+          <label for="fullName">
+            Nombre completo
+          </label>
+
+          <input
+            id="fullName"
+            name="fullName"
+            type="text"
+            autocomplete="name"
+            placeholder="Ej. Juan Pérez"
+            maxlength="120"
+            required
+          />
+
         </div>
-        <div>
-          <label for="student-code">Código de acceso</label>
-          <input id="student-code" name="student-code" placeholder="GV-01" pattern="GV-[0-9]{2}" required>
+
+
+        <div class="field">
+
+          <label for="accessCode">
+            Código de acceso
+          </label>
+
+          <input
+            id="accessCode"
+            name="accessCode"
+            type="text"
+            autocomplete="off"
+            placeholder="GV-01"
+            maxlength="5"
+            required
+          />
+
         </div>
-        <button type="submit">Ingresar</button>
+
+
+        <button
+          id="loginButton"
+          class="button"
+          type="submit"
+        >
+
+          <span class="normal-text">
+            INGRESAR
+          </span>
+
+          <span class="loading-text">
+            VERIFICANDO...
+          </span>
+
+        </button>
+
+
+        <div
+          id="message"
+          class="message"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
       </form>
 
-      <p id="student-demo-message" class="footer-note" hidden>Acceso de demostración: la autenticación se conectará a Supabase.</p>
+
+      <div class="security-note">
+        La sesión permanecerá activa durante
+        un máximo de 8 horas.
+        Tu progreso se guarda automáticamente.
+      </div>
+
     </section>
+
+
+    <footer class="footer">
+      Restaurante Generales de Villa
+      <br />
+      Juárez, México
+    </footer>
+
   </main>
 
+
   <script>
-    document.getElementById('student-login-form').addEventListener('submit', function (event) {
-      event.preventDefault();
-      document.getElementById('student-demo-message').hidden = false;
-    });
+    // =====================================================
+    // CONFIGURACION
+    // =====================================================
+
+    const EDGE_BASE_URL =
+      "https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+
+    const LOGIN_URL =
+      `${EDGE_BASE_URL}/employee-login`;
+
+    const SESSION_URL =
+      `${EDGE_BASE_URL}/employee-session`;
+
+
+    // =====================================================
+    // ELEMENTOS
+    // =====================================================
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const fullNameInput =
+      document.getElementById("fullName");
+
+    const accessCodeInput =
+      document.getElementById("accessCode");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const message =
+      document.getElementById("message");
+
+
+    // =====================================================
+    // MENSAJES
+    // =====================================================
+
+    function showMessage(
+      text,
+      type = "error"
+    ) {
+      message.textContent = text;
+      message.className =
+        `message ${type}`;
+    }
+
+
+    function clearMessage() {
+      message.textContent = "";
+      message.className =
+        "message";
+    }
+
+
+    function setLoading(isLoading) {
+      loginButton.disabled =
+        isLoading;
+
+      loginButton.classList.toggle(
+        "loading",
+        isLoading
+      );
+    }
+
+
+    // =====================================================
+    // FORMATO AUTOMATICO GV-##
+    // =====================================================
+
+    accessCodeInput.addEventListener(
+      "input",
+      () => {
+
+        let value =
+          accessCodeInput.value
+            .toUpperCase()
+            .replace(/\s/g, "");
+
+        // Permitir escribir solo el número:
+        // 02 -> GV-02
+        if (/^\d{1,2}$/.test(value)) {
+
+          value =
+            "GV-" +
+            value.padStart(2, "0");
+
+        }
+
+        accessCodeInput.value =
+          value.slice(0, 5);
+      }
+    );
+
+
+    // =====================================================
+    // COMPROBAR SESION EXISTENTE
+    // =====================================================
+
+    async function checkExistingSession() {
+
+      const token =
+        localStorage.getItem(
+          "gv_employee_session"
+        );
+
+      if (!token) {
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            SESSION_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token
+                })
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          response.ok &&
+          data.authenticated === true
+        ) {
+
+          window.location.href =
+            "./dashboard.html";
+
+          return;
+        }
+
+
+        localStorage.removeItem(
+          "gv_employee_session"
+        );
+
+        localStorage.removeItem(
+          "gv_employee_session_expires"
+        );
+
+      } catch (error) {
+
+        console.error(
+          "No fue posible verificar sesión:",
+          error
+        );
+      }
+    }
+
+
+    // =====================================================
+    // LOGIN
+    // =====================================================
+
+    loginForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const fullName =
+          fullNameInput.value.trim();
+
+        const accessCode =
+          accessCodeInput.value
+            .trim()
+            .toUpperCase();
+
+
+        if (!fullName) {
+
+          showMessage(
+            "Ingresa tu nombre completo."
+          );
+
+          fullNameInput.focus();
+
+          return;
+        }
+
+
+        if (
+          !/^GV-(0[1-9]|[1-9][0-9])$/
+            .test(accessCode)
+        ) {
+
+          showMessage(
+            "Ingresa un código válido con formato GV-##."
+          );
+
+          accessCodeInput.focus();
+
+          return;
+        }
+
+
+        setLoading(true);
+
+
+        try {
+
+          const response =
+            await fetch(
+              LOGIN_URL,
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify({
+                    full_name:
+                      fullName,
+
+                    access_code:
+                      accessCode
+                  })
+              }
+            );
+
+
+          let data = null;
+
+
+          try {
+
+            data =
+              await response.json();
+
+          } catch {
+
+            throw new Error(
+              "Respuesta inválida del servidor"
+            );
+          }
+
+
+          if (
+            !response.ok ||
+            data.success !== true ||
+            !data.session_token
+          ) {
+
+            showMessage(
+              data?.message ||
+              "Nombre o código de acceso incorrectos."
+            );
+
+            return;
+          }
+
+
+          // =================================================
+          // GUARDAR SESION
+          // =================================================
+
+          localStorage.setItem(
+            "gv_employee_session",
+            data.session_token
+          );
+
+
+          if (data.expires_at) {
+
+            localStorage.setItem(
+              "gv_employee_session_expires",
+              data.expires_at
+            );
+
+          }
+
+
+          showMessage(
+            "Acceso correcto. Cargando capacitación...",
+            "success"
+          );
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                "./dashboard.html";
+
+            },
+            500
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Error de acceso:",
+            error
+          );
+
+
+          showMessage(
+            "No fue posible conectar con el servidor. Intenta nuevamente."
+          );
+
+
+        } finally {
+
+          setLoading(false);
+
+        }
+
+      }
+    );
+
+
+    // =====================================================
+    // ARRANQUE
+    // =====================================================
+
+    checkExistingSession();
   </script>
+
 </body>
 </html>
