@@ -1,0 +1,58 @@
+name: Add GV favicon
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-favicon.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  add-favicon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and update files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          cd repo
+
+          cat > student/favicon.svg <<'SVG'
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="29" fill="#171717" stroke="#c59a43" stroke-width="3"/>
+            <text x="32" y="39" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="800" letter-spacing="1" fill="#c59a43">GV</text>
+          </svg>
+          SVG
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          files = [
+              Path('student/index.html'),
+              Path('student/dashboard.html'),
+              Path('student/lesson.html'),
+              Path('student/exam.html'),
+          ]
+
+          favicon = '''  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />\n  <link rel="shortcut icon" href="./favicon.svg" />\n'''
+
+          for path in files:
+              text = path.read_text(encoding='utf-8')
+              if './favicon.svg' in text:
+                  continue
+              marker = '  <meta charset="UTF-8" />\n'
+              if marker not in text:
+                  raise SystemExit(f'No se encontró meta charset en {path}')
+              text = text.replace(marker, marker + favicon, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+
+          rm -f .github/workflows/add-favicon.yml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Agregar favicon GV a la plataforma"
+          git push origin main
