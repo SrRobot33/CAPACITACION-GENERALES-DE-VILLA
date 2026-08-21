@@ -1,1 +1,2050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
+  <title>
+    Examen | Generales de Villa
+  </title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0c0c0c;
+      --panel: #181818;
+      --panel-2: #202020;
+      --border: #343434;
+      --text: #f4f4f4;
+      --muted: #9f9f9f;
+      --gold: #c59a43;
+      --gold-hover: #d9ac55;
+      --green: #4caf50;
+      --red: #d9534f;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        linear-gradient(
+          180deg,
+          #171717 0,
+          #0b0b0b 320px
+        );
+      color: var(--text);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      background:
+        rgba(14, 14, 14, 0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner {
+      width: min(900px, 100%);
+      margin: auto;
+
+      min-height: 70px;
+      padding: 10px 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+
+      border:
+        1.5px solid var(--gold);
+
+      border-radius: 50%;
+
+      color: var(--gold);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 900;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 3px;
+
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .container {
+      width: min(820px, 100%);
+      margin: auto;
+
+      padding: 34px 20px 60px;
+    }
+
+    .loading {
+      min-height: 370px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      gap: 16px;
+
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+
+      border:
+        4px solid #303030;
+
+      border-top-color:
+        var(--gold);
+
+      border-radius: 50%;
+
+      animation:
+        spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform:
+          rotate(360deg);
+      }
+    }
+
+    .error-box {
+      display: none;
+
+      max-width: 650px;
+
+      margin:
+        70px auto;
+
+      border:
+        1px solid rgba(217, 83, 79, 0.4);
+
+      background:
+        rgba(217, 83, 79, 0.1);
+
+      border-radius:
+        16px;
+
+      padding: 26px;
+
+      text-align: center;
+    }
+
+    .error-box h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .error-box p {
+      color: #e7b5b3;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .error-box button {
+      border: none;
+      background: var(--gold);
+      color: #111;
+
+      border-radius: 9px;
+
+      padding:
+        11px 18px;
+
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    #examPage {
+      display: none;
+    }
+
+    .exam-heading {
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+
+      font-size: 12px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      letter-spacing:
+        0.8px;
+
+      margin-bottom: 8px;
+    }
+
+    .exam-heading h1 {
+      font-size:
+        clamp(25px, 5vw, 35px);
+
+      line-height: 1.2;
+
+      margin-bottom: 9px;
+    }
+
+    .exam-note {
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .progress-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+
+      border-radius: 14px;
+
+      padding: 18px;
+
+      margin-bottom: 20px;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 9px;
+
+      font-size: 13px;
+    }
+
+    .progress-row span:first-child {
+      color: var(--muted);
+    }
+
+    .progress-row span:last-child {
+      font-weight: 900;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+
+      background: #303030;
+
+      border-radius: 999px;
+
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+
+      background: var(--gold);
+
+      border-radius: 999px;
+
+      transition:
+        width 0.25s ease;
+    }
+
+    .question-card {
+      background: var(--panel);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
+      padding: 28px;
+
+      margin-bottom: 20px;
+    }
+
+    .question-number {
+      color: var(--gold);
+
+      font-size: 12px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      margin-bottom: 9px;
+    }
+
+    .question-text {
+      font-size:
+        clamp(19px, 4vw, 24px);
+
+      line-height: 1.45;
+
+      margin-bottom: 23px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      position: relative;
+    }
+
+    .option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .option label {
+      display: block;
+
+      border:
+        1px solid #404040;
+
+      background:
+        #202020;
+
+      border-radius: 11px;
+
+      padding:
+        15px 16px;
+
+      line-height: 1.45;
+
+      cursor: pointer;
+
+      transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.1s ease;
+    }
+
+    .option label:hover {
+      border-color:
+        #666;
+    }
+
+    .option input:checked + label {
+      border-color:
+        var(--gold);
+
+      background:
+        rgba(197, 154, 67, 0.12);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .next-button {
+      min-height: 50px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      padding:
+        0 22px;
+
+      background: var(--gold);
+
+      color: #111;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .next-button:hover {
+      background:
+        var(--gold-hover);
+    }
+
+    .next-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .result-card {
+      display: none;
+
+      background:
+        var(--panel);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+    }
+
+    .result-icon {
+      width: 66px;
+      height: 66px;
+
+      margin:
+        0 auto 18px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+    .result-icon.passed {
+      color: var(--green);
+
+      border:
+        1px solid rgba(76, 175, 80, 0.45);
+
+      background:
+        rgba(76, 175, 80, 0.1);
+    }
+
+    .result-icon.failed {
+      color: var(--red);
+
+      border:
+        1px solid rgba(217, 83, 79, 0.45);
+
+      background:
+        rgba(217, 83, 79, 0.1);
+    }
+
+    .result-card h2 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .score {
+      font-size: 42px;
+      font-weight: 900;
+
+      margin:
+        18px 0 4px;
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    .result-text {
+      color: #ccc;
+
+      line-height: 1.55;
+
+      font-size: 14px;
+
+      margin-bottom: 20px;
+    }
+
+    .reinforcement {
+      display: none;
+
+      margin:
+        20px 0;
+
+      padding: 18px;
+
+      border:
+        1px solid #383838;
+
+      background:
+        #202020;
+
+      border-radius: 11px;
+
+      text-align: left;
+    }
+
+    .reinforcement h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .reinforcement ul {
+      padding-left: 20px;
+
+      color: #ccc;
+
+      font-size: 13px;
+
+      line-height: 1.55;
+    }
+
+    .dashboard-button {
+      min-height: 48px;
+
+      border: none;
+
+      background: var(--gold);
+
+      color: #111;
+
+      border-radius: 10px;
+
+      padding:
+        0 22px;
+
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding:
+          25px 14px 45px;
+      }
+
+      .topbar-inner {
+        padding:
+          10px 14px;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .question-card {
+        padding:
+          22px 17px;
+      }
+
+      .actions {
+        display: block;
+      }
+
+      .next-button {
+        width: 100%;
+      }
+
+      .result-card {
+        padding:
+          25px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          GV
+        </div>
+
+        <div>
+          <strong>
+            Generales de Villa
+          </strong>
+
+          <span>
+            Evaluación de capacitación
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <main class="container">
+
+    <!-- CARGANDO -->
+
+    <section
+      id="loadingScreen"
+      class="loading"
+    >
+      <div class="spinner"></div>
+
+      <div id="loadingText">
+        Preparando examen...
+      </div>
+    </section>
+
+
+    <!-- ERROR -->
+
+    <section
+      id="errorBox"
+      class="error-box"
+    >
+
+      <h2>
+        No fue posible abrir el examen
+      </h2>
+
+      <p id="errorText">
+        Intenta nuevamente.
+      </p>
+
+      <button
+        id="errorButton"
+        type="button"
+      >
+        VOLVER AL CURSO
+      </button>
+
+    </section>
+
+
+    <!-- EXAMEN -->
+
+    <section id="examPage">
+
+      <header class="exam-heading">
+
+        <div class="eyebrow">
+          Evaluación del módulo
+        </div>
+
+        <h1>
+          Examen
+        </h1>
+
+        <p class="exam-note">
+          Selecciona una respuesta y avanza.
+          Debes contestar todas las preguntas
+          antes de finalizar.
+        </p>
+
+      </header>
+
+
+      <div class="progress-card">
+
+        <div class="progress-row">
+
+          <span>
+            Progreso del examen
+          </span>
+
+          <span id="questionCounter">
+            Pregunta 1 de 1
+          </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            id="progressBar"
+            class="progress-bar"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <article
+        id="questionCard"
+        class="question-card"
+      >
+
+        <div
+          id="questionNumber"
+          class="question-number"
+        >
+          Pregunta 1
+        </div>
+
+        <div
+          id="questionText"
+          class="question-text"
+        ></div>
+
+        <div
+          id="optionsContainer"
+          class="options"
+        ></div>
+
+      </article>
+
+
+      <div class="actions">
+
+        <button
+          id="nextButton"
+          class="next-button"
+          type="button"
+          disabled
+        >
+          SIGUIENTE
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- RESULTADO -->
+
+    <section
+      id="resultCard"
+      class="result-card"
+    >
+
+      <div
+        id="resultIcon"
+        class="result-icon"
+      ></div>
+
+      <h2 id="resultTitle">
+        Resultado
+      </h2>
+
+      <div
+        id="score"
+        class="score"
+      >
+        0
+      </div>
+
+      <div class="score-label">
+        CALIFICACIÓN / 100
+      </div>
+
+      <p
+        id="resultText"
+        class="result-text"
+      ></p>
+
+
+      <div
+        id="reinforcement"
+        class="reinforcement"
+      >
+
+        <h3>
+          Temas recomendados para reforzar
+        </h3>
+
+        <ul
+          id="reinforcementList"
+        ></ul>
+
+      </div>
+
+
+      <button
+        id="dashboardButton"
+        class="dashboard-button"
+        type="button"
+      >
+        VOLVER A MI CAPACITACIÓN
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIGURACION
+    // =====================================================
+
+    const EDGE_BASE_URL =
+      "https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+
+    const EXAM_URL =
+      `${EDGE_BASE_URL}/employee-exam`;
+
+    const ANSWER_URL =
+      `${EDGE_BASE_URL}/employee-exam-answer`;
+
+    const FINALIZE_URL =
+      `${EDGE_BASE_URL}/employee-exam-finalize`;
+
+    const SESSION_KEY =
+      "gv_employee_session";
+
+
+    // =====================================================
+    // ELEMENTOS
+    // =====================================================
+
+    const loadingScreen =
+      document.getElementById(
+        "loadingScreen"
+      );
+
+    const loadingText =
+      document.getElementById(
+        "loadingText"
+      );
+
+    const errorBox =
+      document.getElementById(
+        "errorBox"
+      );
+
+    const errorText =
+      document.getElementById(
+        "errorText"
+      );
+
+    const examPage =
+      document.getElementById(
+        "examPage"
+      );
+
+    const resultCard =
+      document.getElementById(
+        "resultCard"
+      );
+
+    const questionCounter =
+      document.getElementById(
+        "questionCounter"
+      );
+
+    const progressBar =
+      document.getElementById(
+        "progressBar"
+      );
+
+    const questionNumber =
+      document.getElementById(
+        "questionNumber"
+      );
+
+    const questionText =
+      document.getElementById(
+        "questionText"
+      );
+
+    const optionsContainer =
+      document.getElementById(
+        "optionsContainer"
+      );
+
+    const nextButton =
+      document.getElementById(
+        "nextButton"
+      );
+
+
+    // =====================================================
+    // ESTADO
+    // =====================================================
+
+    let examId = null;
+    let attemptId = null;
+
+    let questions = [];
+    let currentQuestion = null;
+
+    let currentQuestionNumber = 1;
+    let totalQuestions = 0;
+
+    let selectedOptionId = null;
+
+
+    // =====================================================
+    // UTILIDADES
+    // =====================================================
+
+    function getToken() {
+
+      return localStorage.getItem(
+        SESSION_KEY
+      );
+
+    }
+
+
+    function clearSession() {
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      localStorage.removeItem(
+        "gv_employee_session_expires"
+      );
+
+    }
+
+
+    function goToLogin() {
+
+      window.location.href =
+        "./index.html";
+
+    }
+
+
+    function goToDashboard() {
+
+      window.location.href =
+        "./dashboard.html";
+
+    }
+
+
+    function getExamId() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      return params.get(
+        "id"
+      );
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+
+    }
+
+
+    function showLoading(
+      text = "Cargando..."
+    ) {
+
+      loadingText.textContent =
+        text;
+
+      loadingScreen.style.display =
+        "flex";
+
+      errorBox.style.display =
+        "none";
+
+      examPage.style.display =
+        "none";
+
+      resultCard.style.display =
+        "none";
+
+    }
+
+
+    function showError(
+      message
+    ) {
+
+      loadingScreen.style.display =
+        "none";
+
+      examPage.style.display =
+        "none";
+
+      resultCard.style.display =
+        "none";
+
+      errorBox.style.display =
+        "block";
+
+      errorText.textContent =
+        message ||
+        "No fue posible continuar.";
+    }
+
+
+    // =====================================================
+    // EXTRAER PREGUNTAS DEL ENDPOINT
+    //
+    // Compatible con el formato actual que devuelve
+    // content.questions.
+    // =====================================================
+
+    function extractExamData(
+      data
+    ) {
+
+      const content =
+        data.content ??
+        data.data?.content ??
+        data;
+
+
+      const attempt =
+        data.attempt ??
+        data.data?.attempt ??
+        {};
+
+
+      questions =
+        Array.isArray(
+          content?.questions
+        )
+          ? content.questions
+          : [];
+
+
+      attemptId =
+        attempt.id ??
+        attempt.attempt_id ??
+        content.attempt_id ??
+        data.attempt_id ??
+        attemptId;
+
+
+      currentQuestionNumber =
+        Number(
+          attempt.current_question_index ??
+          content.current_question_index ??
+          1
+        );
+
+
+      totalQuestions =
+        Number(
+          attempt.total_questions ??
+          content.total_questions ??
+          questions.length ??
+          0
+        );
+
+
+      if (
+        !Number.isFinite(
+          currentQuestionNumber
+        ) ||
+        currentQuestionNumber < 1
+      ) {
+
+        currentQuestionNumber = 1;
+
+      }
+
+
+      if (
+        !Number.isFinite(
+          totalQuestions
+        ) ||
+        totalQuestions < 1
+      ) {
+
+        totalQuestions =
+          questions.length;
+
+      }
+
+    }
+
+
+    // =====================================================
+    // BUSCAR PREGUNTA ACTUAL
+    // =====================================================
+
+    function findCurrentQuestion() {
+
+      currentQuestion =
+        questions.find(
+          question =>
+            Number(
+              question.number
+            ) ===
+            Number(
+              currentQuestionNumber
+            )
+        ) ??
+        questions[
+          currentQuestionNumber - 1
+        ] ??
+        null;
+
+    }
+
+
+    // =====================================================
+    // MOSTRAR PREGUNTA
+    // =====================================================
+
+    function renderQuestion() {
+
+      findCurrentQuestion();
+
+
+      if (!currentQuestion) {
+
+        showError(
+          "No fue posible obtener la pregunta actual."
+        );
+
+        return;
+
+      }
+
+
+      selectedOptionId =
+        null;
+
+
+      const number =
+        Number(
+          currentQuestion.number ??
+          currentQuestionNumber
+        );
+
+
+      currentQuestionNumber =
+        number;
+
+
+      questionNumber.textContent =
+        `Pregunta ${number}`;
+
+
+      questionCounter.textContent =
+        `Pregunta ${number} de ${totalQuestions}`;
+
+
+      const percent =
+        totalQuestions > 0
+          ? (
+              number /
+              totalQuestions
+            ) * 100
+          : 0;
+
+
+      progressBar.style.width =
+        `${Math.min(
+          100,
+          Math.max(
+            0,
+            percent
+          )
+        )}%`;
+
+
+      questionText.textContent =
+        currentQuestion.question_text ??
+        currentQuestion.text ??
+        "Pregunta";
+
+
+      const options =
+        Array.isArray(
+          currentQuestion.options
+        )
+          ? currentQuestion.options
+          : [];
+
+
+      if (
+        options.length === 0
+      ) {
+
+        showError(
+          "Esta pregunta no tiene opciones disponibles."
+        );
+
+        return;
+
+      }
+
+
+      optionsContainer.innerHTML =
+        options
+          .map(
+            (
+              option,
+              index
+            ) => {
+
+              const optionId =
+                option.option_id ??
+                option.id ??
+                "";
+
+              const optionText =
+                option.option_text ??
+                option.text ??
+                `Opción ${index + 1}`;
+
+
+              return `
+                <div class="option">
+
+                  <input
+                    type="radio"
+                    name="examOption"
+                    id="option-${index}"
+                    value="${escapeHtml(optionId)}"
+                  />
+
+                  <label
+                    for="option-${index}"
+                  >
+                    ${escapeHtml(optionText)}
+                  </label>
+
+                </div>
+              `;
+
+            }
+          )
+          .join("");
+
+
+      document
+        .querySelectorAll(
+          'input[name="examOption"]'
+        )
+        .forEach(
+          input => {
+
+            input.addEventListener(
+              "change",
+              () => {
+
+                selectedOptionId =
+                  input.value;
+
+                nextButton.disabled =
+                  false;
+
+              }
+            );
+
+          }
+        );
+
+
+      if (
+        number >= totalQuestions
+      ) {
+
+        nextButton.textContent =
+          "FINALIZAR EXAMEN";
+
+      } else {
+
+        nextButton.textContent =
+          "SIGUIENTE";
+
+      }
+
+
+      nextButton.disabled =
+        true;
+
+
+      loadingScreen.style.display =
+        "none";
+
+      errorBox.style.display =
+        "none";
+
+      resultCard.style.display =
+        "none";
+
+      examPage.style.display =
+        "block";
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    // =====================================================
+    // CARGAR / REANUDAR EXAMEN
+    // =====================================================
+
+    async function loadExam() {
+
+      const token =
+        getToken();
+
+
+      if (!token) {
+
+        goToLogin();
+
+        return;
+
+      }
+
+
+      examId =
+        getExamId();
+
+
+      if (!examId) {
+
+        showError(
+          "No se indicó qué examen deseas presentar."
+        );
+
+        return;
+
+      }
+
+
+      showLoading(
+        "Preparando examen..."
+      );
+
+
+      try {
+
+        const response =
+          await fetch(
+            EXAM_URL,
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token,
+
+                  exam_id:
+                    examId
+                })
+            }
+          );
+
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          throw new Error(
+            "El servidor devolvió una respuesta inválida."
+          );
+
+        }
+
+
+        if (
+          response.status === 401 ||
+          data.authenticated === false
+        ) {
+
+          clearSession();
+
+          goToLogin();
+
+          return;
+
+        }
+
+
+        if (
+          !response.ok ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data.message ||
+            "No fue posible iniciar el examen."
+          );
+
+        }
+
+
+        extractExamData(
+          data
+        );
+
+
+        if (!attemptId) {
+
+          throw new Error(
+            "No fue posible identificar el intento de examen."
+          );
+
+        }
+
+
+        if (
+          questions.length === 0
+        ) {
+
+          throw new Error(
+            "No fue posible cargar las preguntas."
+          );
+
+        }
+
+
+        renderQuestion();
+
+
+      } catch (error) {
+
+        console.error(
+          "employee-exam:",
+          error
+        );
+
+
+        showError(
+          error.message ||
+          "No fue posible conectar con el servidor."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // GUARDAR RESPUESTA
+    // =====================================================
+
+    async function saveAnswer() {
+
+      if (
+        !selectedOptionId ||
+        !attemptId ||
+        !currentQuestion
+      ) {
+
+        return;
+
+      }
+
+
+      const token =
+        getToken();
+
+
+      if (!token) {
+
+        goToLogin();
+
+        return;
+
+      }
+
+
+      nextButton.disabled =
+        true;
+
+
+      const isLastQuestion =
+        currentQuestionNumber >=
+        totalQuestions;
+
+
+      nextButton.textContent =
+        isLastQuestion
+          ? "GUARDANDO..."
+          : "CARGANDO...";
+
+
+      try {
+
+        const response =
+          await fetch(
+            ANSWER_URL,
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token,
+
+                  attempt_id:
+                    attemptId,
+
+                  question_number:
+                    currentQuestionNumber,
+
+                  selected_option_id:
+                    selectedOptionId
+                })
+            }
+          );
+
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          throw new Error(
+            "El servidor devolvió una respuesta inválida."
+          );
+
+        }
+
+
+        if (
+          response.status === 401 ||
+          data.authenticated === false
+        ) {
+
+          clearSession();
+
+          goToLogin();
+
+          return;
+
+        }
+
+
+        if (
+          !response.ok ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data.message ||
+            "No fue posible guardar la respuesta."
+          );
+
+        }
+
+
+        if (
+          isLastQuestion
+        ) {
+
+          await confirmAndFinalize();
+
+          return;
+
+        }
+
+
+        const nextIndex =
+          Number(
+            data.next_question_index ??
+            data.attempt
+              ?.current_question_index ??
+            currentQuestionNumber + 1
+          );
+
+
+        currentQuestionNumber =
+          nextIndex;
+
+
+        renderQuestion();
+
+
+      } catch (error) {
+
+        console.error(
+          "employee-exam-answer:",
+          error
+        );
+
+
+        nextButton.disabled =
+          false;
+
+
+        nextButton.textContent =
+          isLastQuestion
+            ? "FINALIZAR EXAMEN"
+            : "SIGUIENTE";
+
+
+        alert(
+          error.message ||
+          "No fue posible guardar tu respuesta."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // CONFIRMACION FINAL
+    // =====================================================
+
+    async function confirmAndFinalize() {
+
+      const confirmed =
+        window.confirm(
+          "Has respondido la última pregunta.\n\n¿Deseas finalizar y enviar el examen para calificación?"
+        );
+
+
+      if (!confirmed) {
+
+        nextButton.disabled =
+          false;
+
+        nextButton.textContent =
+          "FINALIZAR EXAMEN";
+
+        return;
+
+      }
+
+
+      await finalizeExam();
+
+    }
+
+
+    // =====================================================
+    // FINALIZAR
+    // =====================================================
+
+    async function finalizeExam() {
+
+      const token =
+        getToken();
+
+
+      if (!token) {
+
+        goToLogin();
+
+        return;
+
+      }
+
+
+      showLoading(
+        "Calificando examen..."
+      );
+
+
+      try {
+
+        const response =
+          await fetch(
+            FINALIZE_URL,
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  session_token:
+                    token,
+
+                  attempt_id:
+                    attemptId
+                })
+            }
+          );
+
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          throw new Error(
+            "El servidor devolvió una respuesta inválida."
+          );
+
+        }
+
+
+        if (
+          response.status === 401 ||
+          data.authenticated === false
+        ) {
+
+          clearSession();
+
+          goToLogin();
+
+          return;
+
+        }
+
+
+        if (
+          !response.ok ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data.message ||
+            "No fue posible finalizar el examen."
+          );
+
+        }
+
+
+        renderResult(
+          data.result
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "employee-exam-finalize:",
+          error
+        );
+
+
+        showError(
+          error.message ||
+          "No fue posible obtener la calificación."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // RESULTADO
+    // =====================================================
+
+    function renderResult(
+      result
+    ) {
+
+      let safeResult =
+        result;
+
+
+      if (
+        Array.isArray(
+          safeResult
+        )
+      ) {
+
+        safeResult =
+          safeResult[0] ??
+          {};
+
+      }
+
+
+      safeResult =
+        safeResult ?? {};
+
+
+      const scoreValue =
+        Number(
+          safeResult.score ??
+          0
+        );
+
+
+      const passed =
+        safeResult.passed === true ||
+        String(
+          safeResult.status ??
+          ""
+        ).toLowerCase() ===
+          "passed";
+
+
+      const correct =
+        safeResult.correct_answers;
+
+
+      const total =
+        safeResult.total_questions;
+
+
+      const resultIcon =
+        document.getElementById(
+          "resultIcon"
+        );
+
+      const resultTitle =
+        document.getElementById(
+          "resultTitle"
+        );
+
+      const score =
+        document.getElementById(
+          "score"
+        );
+
+      const resultText =
+        document.getElementById(
+          "resultText"
+        );
+
+      const reinforcement =
+        document.getElementById(
+          "reinforcement"
+        );
+
+      const reinforcementList =
+        document.getElementById(
+          "reinforcementList"
+        );
+
+
+      score.textContent =
+        Number.isFinite(
+          scoreValue
+        )
+          ? scoreValue
+          : 0;
+
+
+      resultIcon.className =
+        `result-icon ${
+          passed
+            ? "passed"
+            : "failed"
+        }`;
+
+
+      resultIcon.textContent =
+        passed
+          ? "✓"
+          : "!";
+
+
+      resultTitle.textContent =
+        passed
+          ? "Módulo aprobado"
+          : "Examen no aprobado";
+
+
+      if (
+        safeResult.result_text
+      ) {
+
+        resultText.textContent =
+          safeResult.result_text;
+
+      } else if (
+        correct !== undefined &&
+        total !== undefined
+      ) {
+
+        resultText.textContent =
+          passed
+            ? `Obtuviste ${correct} respuestas correctas de ${total}.`
+            : `Obtuviste ${correct} respuestas correctas de ${total}. Se requiere una calificación mínima de 80 para aprobar.`;
+
+      } else {
+
+        resultText.textContent =
+          passed
+            ? "Has aprobado correctamente este módulo."
+            : "No alcanzaste la calificación mínima de 80.";
+
+      }
+
+
+      const topics =
+        Array.isArray(
+          safeResult.reinforcement_topics
+        )
+          ? safeResult.reinforcement_topics
+          : [];
+
+
+      if (
+        topics.length > 0
+      ) {
+
+        reinforcementList.innerHTML =
+          topics
+            .map(
+              topic =>
+                `<li>${escapeHtml(topic)}</li>`
+            )
+            .join("");
+
+
+        reinforcement.style.display =
+          "block";
+
+      } else {
+
+        reinforcement.style.display =
+          "none";
+
+      }
+
+
+      loadingScreen.style.display =
+        "none";
+
+      errorBox.style.display =
+        "none";
+
+      examPage.style.display =
+        "none";
+
+      resultCard.style.display =
+        "block";
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    // =====================================================
+    // EVENTOS
+    // =====================================================
+
+    nextButton.addEventListener(
+      "click",
+      saveAnswer
+    );
+
+
+    document
+      .getElementById(
+        "errorButton"
+      )
+      .addEventListener(
+        "click",
+        goToDashboard
+      );
+
+
+    document
+      .getElementById(
+        "dashboardButton"
+      )
+      .addEventListener(
+        "click",
+        goToDashboard
+      );
+
+
+    // =====================================================
+    // INICIO
+    // =====================================================
+
+    loadExam();
+
+  </script>
+
+</body>
+</html>
