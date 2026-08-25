@@ -21,7 +21,7 @@
     .tab{border:0;background:transparent;color:#999;padding:12px;border-radius:8px;font-size:13px;font-weight:900;cursor:pointer}.tab.active{background:var(--gold);color:#111}
     .panel{display:none}.panel.active{display:block}.panel h2{font-size:20px;margin-bottom:7px}.subtitle{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:23px}
     .field{margin-bottom:17px}label{display:block;font-size:13px;font-weight:800;color:#ddd;margin-bottom:8px}
-    input,select{width:100%;height:50px;border:1px solid #3c3c3c;border-radius:10px;background:#101010;color:#fff;padding:0 14px;font-size:15px;outline:none}
+    input,select{width:100%;height:50px;border:1px solid #3c3c3c;border-radius:10px;background:#101010;color:#fff;padding:0 14px;font-size:15px;outline:none;color-scheme:dark}
     input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(197,154,67,.12)}
     select:disabled{opacity:.55}.button{width:100%;min-height:52px;border:0;border-radius:10px;background:var(--gold);color:#111;font-size:14px;font-weight:900;cursor:pointer;margin-top:4px}.button:hover{background:var(--gold2)}.button:disabled{opacity:.6;cursor:not-allowed}
     .message{display:none;margin-top:17px;padding:12px 14px;border-radius:9px;font-size:14px;line-height:1.45}.message.error{display:block;background:rgba(217,83,79,.14);border:1px solid rgba(217,83,79,.35);color:#ffd4d2}.message.success{display:block;background:rgba(76,175,80,.14);border:1px solid rgba(76,175,80,.35);color:#d8f5da}
@@ -35,7 +35,7 @@
     <header class="brand">
       <div class="brand-mark">GV</div>
       <h1>Generales de Villa</h1>
-      <p>Programa de Capacitación Interna<br>Manejo Higiénico y Seguridad Alimentaria</p>
+      <p>Programa de Capacitación Interna</p>
     </header>
 
     <section class="card" id="mainCard">
@@ -62,6 +62,7 @@
           <div class="field"><label for="registerName">Nombre completo</label><input id="registerName" type="text" autocomplete="name" maxlength="120" placeholder="Nombre y apellidos" required></div>
           <div class="field"><label for="area">Área</label><select id="area" required><option value="">Selecciona tu área</option><option value="Cocina">Cocina</option><option value="Servicio">Servicio</option></select></div>
           <div class="field"><label for="position">Puesto</label><select id="position" required disabled><option value="">Primero selecciona el área</option></select></div>
+          <div class="field"><label for="hireDate">Fecha de ingreso al restaurante</label><input id="hireDate" type="date" required></div>
           <button class="button" id="registerButton" type="submit">REGISTRARME</button>
           <div id="registerMessage" class="message" role="alert"></div>
         </form>
@@ -113,6 +114,10 @@
       select.disabled=false;select.innerHTML='<option value="">Selecciona tu puesto</option>'+positions[area].map(p=>`<option value="${p}">${p}</option>`).join("");
     });
 
+    const now=new Date();
+    const today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+    $("hireDate").max=today;
+
     $("accessCode").addEventListener("input",()=>{
       let value=$("accessCode").value.toUpperCase().replace(/\s/g,"");
       if(/^\d{1,2}$/.test(value)) value="GV-"+value.padStart(2,"0");
@@ -136,13 +141,15 @@
 
     $("registerForm").addEventListener("submit",async e=>{
       e.preventDefault();clearMessage($("registerMessage"));
-      const full_name=$("registerName").value.trim();const area=$("area").value;const position=$("position").value;
-      if(!full_name||!area||!position)return showMessage($("registerMessage"),"Completa nombre, área y puesto.");
+      const full_name=$("registerName").value.trim();const area=$("area").value;const position=$("position").value;const hire_date=$("hireDate").value;
+      if(!full_name||!area||!position||!hire_date)return showMessage($("registerMessage"),"Completa nombre, área, puesto y fecha de ingreso.");
+      if(hire_date>today)return showMessage($("registerMessage"),"La fecha de ingreso no puede ser futura.");
       $("registerButton").disabled=true;$("registerButton").textContent="REGISTRANDO...";
-      try{const r=await fetch(REGISTER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name,area,position})});const d=await r.json();if(!r.ok||d.success!==true)return showMessage($("registerMessage"),d?.message||"No fue posible completar el registro.");
+      try{const r=await fetch(REGISTER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name,area,position,hire_date})});const d=await r.json();if(!r.ok||d.success!==true)return showMessage($("registerMessage"),d?.message||"No fue posible completar el registro.");
         $("loginPanel").classList.remove("active");$("registerPanel").classList.remove("active");$("registerResult").classList.add("active");
         $("generatedCode").textContent=d.employee.access_code;
-        $("employeeSummary").innerHTML=`<strong>${d.employee.full_name}</strong><br>${d.employee.position} · ${d.employee.area}`;
+        const dateText=d.employee.hire_date?new Date(`${d.employee.hire_date}T12:00:00`).toLocaleDateString("es-MX"):"";
+        $("employeeSummary").innerHTML=`<strong>${d.employee.full_name}</strong><br>${d.employee.position} · ${d.employee.area}${dateText?`<br>Ingreso: ${dateText}`:""}`;
         $("fullName").value=d.employee.full_name;$("accessCode").value=d.employee.access_code;
       }catch{showMessage($("registerMessage"),"No fue posible conectar con el servidor.")}finally{$("registerButton").disabled=false;$("registerButton").textContent="REGISTRARME"}
     });
