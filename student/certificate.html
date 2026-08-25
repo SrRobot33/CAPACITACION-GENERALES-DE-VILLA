@@ -16,7 +16,7 @@
 <section id="loading" class="box loading"><div class="spinner"></div><div>Preparando certificado...</div></section>
 <section id="state" class="box state"><h2 id="stateTitle">Certificado no disponible</h2><p id="stateText"></p><button id="stateBack" class="btn gold" type="button">VOLVER A MI CAPACITACIÓN</button></section>
 <section id="cert" class="cert"><div class="box summary"><div><div id="courseTitle" class="summary-title"></div><div id="meta" class="summary-meta"></div></div><div id="score" class="score"></div></div><div class="actions"><button id="download" class="btn gold" type="button">DESCARGAR PDF</button><button id="print" class="btn outline" type="button">IMPRIMIR</button><button id="back" class="btn outline" type="button">VOLVER AL CURSO</button></div><div class="box viewer"><iframe id="preview" title="Vista previa del certificado"></iframe></div><div class="note">El PDF incluye a los instructores responsables y sus firmas registradas.</div></section></main>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const EDGE="https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1",DASH=`${EDGE}/employee-dashboard`,SESSION="gv_employee_session",EXPIRES="gv_employee_session_expires";
 const $=id=>document.getElementById(id);let blobUrl="",fileName="Certificado_GV.pdf";
