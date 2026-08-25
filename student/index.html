@@ -4,821 +4,151 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="shortcut icon" href="./favicon.svg" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <meta
-    name="description"
-    content="Plataforma de capacitación interna de Restaurante Generales de Villa"
-  />
-
-  <title>
-    Acceso del Personal | Generales de Villa
-  </title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Plataforma de capacitación interna de Restaurante Generales de Villa" />
+  <title>Acceso del Personal | Generales de Villa</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #111111;
-      --panel: #1a1a1a;
-      --panel-light: #232323;
-      --border: #333333;
-
-      --text: #f5f5f5;
-      --muted: #a7a7a7;
-
-      --gold: #c59a43;
-      --gold-hover: #d8ad56;
-
-      --danger: #d9534f;
-      --success: #4caf50;
-    }
-
-    html,
-    body {
-      min-height: 100%;
-    }
-
-    body {
-      min-height: 100vh;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background:
-        radial-gradient(
-          circle at top,
-          #252525 0%,
-          #151515 40%,
-          #0b0b0b 100%
-        );
-
-      color: var(--text);
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 24px;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 460px;
-    }
-
-    .brand {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .brand-mark {
-      width: 92px;
-      height: 92px;
-
-      margin: 0 auto 16px;
-
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: 2px;
-
-      color: var(--gold);
-
-      background:
-        linear-gradient(
-          145deg,
-          #222,
-          #111
-        );
-
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .brand h1 {
-      font-size: 25px;
-      line-height: 1.2;
-      margin-bottom: 7px;
-    }
-
-    .brand p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .login-card {
-      width: 100%;
-
-      background:
-        rgba(26, 26, 26, 0.97);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 18px;
-
-      padding: 30px;
-
-      box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.42);
-    }
-
-    .login-card h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .login-card .subtitle {
-      color: var(--muted);
-
-      font-size: 14px;
-      line-height: 1.5;
-
-      margin-bottom: 25px;
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      margin-bottom: 8px;
-
-      color: #dddddd;
-    }
-
-    input {
-      width: 100%;
-      height: 50px;
-
-      border:
-        1px solid #3c3c3c;
-
-      border-radius: 10px;
-
-      background: #101010;
-
-      color: white;
-
-      padding:
-        0 14px;
-
-      font-size: 16px;
-
-      outline: none;
-
-      transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    input:focus {
-      border-color:
-        var(--gold);
-
-      box-shadow:
-        0 0 0 3px
-        rgba(197, 154, 67, 0.12);
-    }
-
-    input::placeholder {
-      color: #707070;
-    }
-
-    #accessCode {
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .button {
-      width: 100%;
-      min-height: 52px;
-
-      border: none;
-      border-radius: 10px;
-
-      background:
-        var(--gold);
-
-      color: #111111;
-
-      font-size: 15px;
-      font-weight: 800;
-
-      cursor: pointer;
-
-      transition:
-        background 0.2s ease,
-        transform 0.1s ease;
-
-      margin-top: 4px;
-    }
-
-    .button:hover {
-      background:
-        var(--gold-hover);
-    }
-
-    .button:active {
-      transform:
-        translateY(1px);
-    }
-
-    .button:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    .message {
-      display: none;
-
-      margin-top: 18px;
-
-      padding: 12px 14px;
-
-      border-radius: 9px;
-
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .message.error {
-      display: block;
-
-      color: #ffd4d2;
-
-      background:
-        rgba(217, 83, 79, 0.14);
-
-      border:
-        1px solid
-        rgba(217, 83, 79, 0.35);
-    }
-
-    .message.success {
-      display: block;
-
-      color: #d8f5da;
-
-      background:
-        rgba(76, 175, 80, 0.14);
-
-      border:
-        1px solid
-        rgba(76, 175, 80, 0.35);
-    }
-
-    .security-note {
-      margin-top: 22px;
-
-      padding-top: 18px;
-
-      border-top:
-        1px solid #303030;
-
-      color:
-        var(--muted);
-
-      font-size: 12px;
-      line-height: 1.55;
-
-      text-align: center;
-    }
-
-    .footer {
-      text-align: center;
-
-      margin-top: 22px;
-
-      color: #737373;
-
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .loading-text {
-      display: none;
-    }
-
-    .button.loading .normal-text {
-      display: none;
-    }
-
-    .button.loading .loading-text {
-      display: inline;
-    }
-
-    @media (max-width: 520px) {
-      body {
-        padding: 16px;
-        align-items: flex-start;
-      }
-
-      .page {
-        margin-top: 28px;
-      }
-
-      .login-card {
-        padding: 24px 20px;
-      }
-
-      .brand-mark {
-        width: 82px;
-        height: 82px;
-      }
-
-      .brand h1 {
-        font-size: 22px;
-      }
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#111;--panel:#1a1a1a;--panel2:#232323;--border:#353535;--text:#f5f5f5;--muted:#a7a7a7;--gold:#c59a43;--gold2:#ddb35c;--red:#d9534f;--green:#4caf50}
+    html,body{min-height:100%}
+    body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#252525 0,#151515 42%,#0b0b0b 100%);color:var(--text);padding:24px}
+    .page{width:min(520px,100%);margin:0 auto}
+    .brand{text-align:center;margin:18px 0 24px}
+    .brand-mark{width:92px;height:92px;margin:0 auto 16px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;letter-spacing:2px;color:var(--gold);background:linear-gradient(145deg,#222,#111);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .brand h1{font-size:25px;margin-bottom:7px}.brand p{font-size:14px;line-height:1.5;color:var(--muted)}
+    .card{background:rgba(26,26,26,.98);border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.42)}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#111;border:1px solid #303030;border-radius:12px;padding:5px;margin-bottom:25px}
+    .tab{border:0;background:transparent;color:#999;padding:12px;border-radius:8px;font-size:13px;font-weight:900;cursor:pointer}.tab.active{background:var(--gold);color:#111}
+    .panel{display:none}.panel.active{display:block}.panel h2{font-size:20px;margin-bottom:7px}.subtitle{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:23px}
+    .field{margin-bottom:17px}label{display:block;font-size:13px;font-weight:800;color:#ddd;margin-bottom:8px}
+    input,select{width:100%;height:50px;border:1px solid #3c3c3c;border-radius:10px;background:#101010;color:#fff;padding:0 14px;font-size:15px;outline:none}
+    input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(197,154,67,.12)}
+    select:disabled{opacity:.55}.button{width:100%;min-height:52px;border:0;border-radius:10px;background:var(--gold);color:#111;font-size:14px;font-weight:900;cursor:pointer;margin-top:4px}.button:hover{background:var(--gold2)}.button:disabled{opacity:.6;cursor:not-allowed}
+    .message{display:none;margin-top:17px;padding:12px 14px;border-radius:9px;font-size:14px;line-height:1.45}.message.error{display:block;background:rgba(217,83,79,.14);border:1px solid rgba(217,83,79,.35);color:#ffd4d2}.message.success{display:block;background:rgba(76,175,80,.14);border:1px solid rgba(76,175,80,.35);color:#d8f5da}
+    .result{display:none;text-align:center}.result.active{display:block}.result-badge{color:var(--gold);font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}.result h2{margin-bottom:8px}.employee-summary{margin:20px 0;padding:16px;background:#111;border:1px solid #303030;border-radius:12px;color:#d8d8d8;font-size:14px;line-height:1.7}.code-box{margin:18px 0;padding:22px;background:rgba(197,154,67,.09);border:1px solid rgba(197,154,67,.45);border-radius:14px}.code-label{font-size:12px;color:var(--muted);font-weight:800;margin-bottom:7px}.code{font-size:34px;font-weight:900;letter-spacing:3px;color:var(--gold)}.warning{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:18px}
+    .security{margin-top:20px;padding-top:17px;border-top:1px solid #303030;text-align:center;font-size:12px;color:var(--muted);line-height:1.55}.footer{text-align:center;margin-top:20px;color:#737373;font-size:12px;line-height:1.5}
+    @media(max-width:560px){body{padding:15px}.brand{margin-top:10px}.card{padding:23px 18px}.brand-mark{width:82px;height:82px}}
   </style>
 </head>
-
 <body>
-
   <main class="page">
-
     <header class="brand">
-
-      <div class="brand-mark">
-        GV
-      </div>
-
-      <h1>
-        Generales de Villa
-      </h1>
-
-      <p>
-        Programa de Capacitación Interna
-        <br />
-        Manejo Higiénico y Seguridad Alimentaria
-      </p>
-
+      <div class="brand-mark">GV</div>
+      <h1>Generales de Villa</h1>
+      <p>Programa de Capacitación Interna<br>Manejo Higiénico y Seguridad Alimentaria</p>
     </header>
 
-
-    <section class="login-card">
-
-      <h2>
-        Acceso del Personal
-      </h2>
-
-      <p class="subtitle">
-        Ingresa tu nombre completo y el código
-        asignado por el Instructor.
-      </p>
-
-
-      <form id="loginForm">
-
-        <div class="field">
-
-          <label for="fullName">
-            Nombre completo
-          </label>
-
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            autocomplete="name"
-            placeholder="Ej. Juan Pérez"
-            maxlength="120"
-            required
-          />
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="accessCode">
-            Código de acceso
-          </label>
-
-          <input
-            id="accessCode"
-            name="accessCode"
-            type="text"
-            autocomplete="off"
-            placeholder="GV-01"
-            maxlength="5"
-            required
-          />
-
-        </div>
-
-
-        <button
-          id="loginButton"
-          class="button"
-          type="submit"
-        >
-
-          <span class="normal-text">
-            INGRESAR
-          </span>
-
-          <span class="loading-text">
-            VERIFICANDO...
-          </span>
-
-        </button>
-
-
-        <div
-          id="message"
-          class="message"
-          role="alert"
-          aria-live="polite"
-        ></div>
-
-      </form>
-
-
-      <div class="security-note">
-        La sesión permanecerá activa durante
-        un máximo de 8 horas.
-        Tu progreso se guarda automáticamente.
+    <section class="card" id="mainCard">
+      <div class="tabs">
+        <button class="tab active" id="loginTab" type="button">INGRESAR</button>
+        <button class="tab" id="registerTab" type="button">REGISTRARME</button>
       </div>
 
+      <section class="panel active" id="loginPanel">
+        <h2>Acceso del Personal</h2>
+        <p class="subtitle">Ingresa tu nombre completo y tu código GV asignado.</p>
+        <form id="loginForm">
+          <div class="field"><label for="fullName">Nombre completo</label><input id="fullName" type="text" autocomplete="name" maxlength="120" placeholder="Ej. Juan Pérez" required></div>
+          <div class="field"><label for="accessCode">Código de acceso</label><input id="accessCode" type="text" autocomplete="off" maxlength="5" placeholder="GV-01" required></div>
+          <button class="button" id="loginButton" type="submit">INGRESAR</button>
+          <div id="loginMessage" class="message" role="alert"></div>
+        </form>
+      </section>
+
+      <section class="panel" id="registerPanel">
+        <h2>Registro de empleado</h2>
+        <p class="subtitle">Regístrate una sola vez. El sistema te asignará automáticamente el siguiente código GV disponible.</p>
+        <form id="registerForm">
+          <div class="field"><label for="registerName">Nombre completo</label><input id="registerName" type="text" autocomplete="name" maxlength="120" placeholder="Nombre y apellidos" required></div>
+          <div class="field"><label for="area">Área</label><select id="area" required><option value="">Selecciona tu área</option><option value="Cocina">Cocina</option><option value="Servicio">Servicio</option></select></div>
+          <div class="field"><label for="position">Puesto</label><select id="position" required disabled><option value="">Primero selecciona el área</option></select></div>
+          <button class="button" id="registerButton" type="submit">REGISTRARME</button>
+          <div id="registerMessage" class="message" role="alert"></div>
+        </form>
+      </section>
+
+      <section class="result" id="registerResult">
+        <div class="result-badge">Registro completado</div>
+        <h2>Tu acceso ya está listo</h2>
+        <div class="employee-summary" id="employeeSummary"></div>
+        <div class="code-box"><div class="code-label">TU CÓDIGO DE ACCESO</div><div class="code" id="generatedCode">GV-##</div></div>
+        <p class="warning">Guarda este código. Lo necesitarás junto con tu nombre completo cada vez que ingreses a tu capacitación.</p>
+        <button class="button" id="goLoginButton" type="button">IR A MI CAPACITACIÓN</button>
+      </section>
+
+      <div class="security">La sesión permanece activa por un máximo de 8 horas. Tu progreso se guarda automáticamente.</div>
     </section>
 
-
-    <footer class="footer">
-      Restaurante Generales de Villa
-      <br />
-      Juárez, México
-    </footer>
-
+    <footer class="footer">Restaurante Generales de Villa<br>Juárez, México</footer>
   </main>
 
-
   <script>
-    // =====================================================
-    // CONFIGURACION
-    // =====================================================
+    const EDGE_BASE_URL="https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+    const LOGIN_URL=`${EDGE_BASE_URL}/employee-login`;
+    const SESSION_URL=`${EDGE_BASE_URL}/employee-session`;
+    const REGISTER_URL=`${EDGE_BASE_URL}/employee-register`;
+    const SESSION_KEY="gv_employee_session";
+    const EXPIRES_KEY="gv_employee_session_expires";
 
-    const EDGE_BASE_URL =
-      "https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+    const positions={
+      Cocina:["Chef","Sous-chef","Cocinero A - Parrillero","Cocinero A - Sartenero","Cocinero A - Expo","Cocinero B - Preparaciones","Cocinero B - Repostero","Cocinero B - Panadero","Cocinero B - Plancha","Cocinero B - Desayuno","Ayudante de cocina","Lavaloza","Almacén"],
+      Servicio:["Bartender","Ayudante de barra","Mesero","Ayudante de mesero","Capitán de meseros","Supervisor de servicio","Gerente de servicio"]
+    };
 
-    const LOGIN_URL =
-      `${EDGE_BASE_URL}/employee-login`;
+    const $=id=>document.getElementById(id);
+    function showMessage(el,text,type="error"){el.textContent=text;el.className=`message ${type}`}
+    function clearMessage(el){el.textContent="";el.className="message"}
+    function setTab(which){
+      const login=which==="login";
+      $("loginTab").classList.toggle("active",login);$("registerTab").classList.toggle("active",!login);
+      $("loginPanel").classList.toggle("active",login);$("registerPanel").classList.toggle("active",!login);
+      $("registerResult").classList.remove("active");
+    }
+    $("loginTab").onclick=()=>setTab("login");
+    $("registerTab").onclick=()=>setTab("register");
 
-    const SESSION_URL =
-      `${EDGE_BASE_URL}/employee-session`;
+    $("area").addEventListener("change",()=>{
+      const area=$("area").value;const select=$("position");select.innerHTML="";
+      if(!area){select.disabled=true;select.innerHTML='<option value="">Primero selecciona el área</option>';return}
+      select.disabled=false;select.innerHTML='<option value="">Selecciona tu puesto</option>'+positions[area].map(p=>`<option value="${p}">${p}</option>`).join("");
+    });
 
+    $("accessCode").addEventListener("input",()=>{
+      let value=$("accessCode").value.toUpperCase().replace(/\s/g,"");
+      if(/^\d{1,2}$/.test(value)) value="GV-"+value.padStart(2,"0");
+      $("accessCode").value=value.slice(0,5);
+    });
 
-    // =====================================================
-    // ELEMENTOS
-    // =====================================================
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const fullNameInput =
-      document.getElementById("fullName");
-
-    const accessCodeInput =
-      document.getElementById("accessCode");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const message =
-      document.getElementById("message");
-
-
-    // =====================================================
-    // MENSAJES
-    // =====================================================
-
-    function showMessage(
-      text,
-      type = "error"
-    ) {
-      message.textContent = text;
-      message.className =
-        `message ${type}`;
+    async function checkExistingSession(){
+      const token=localStorage.getItem(SESSION_KEY);if(!token)return;
+      try{const r=await fetch(SESSION_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_token:token})});const d=await r.json();if(r.ok&&d.authenticated===true){location.href="./dashboard.html";return}}catch(e){console.error(e)}
+      localStorage.removeItem(SESSION_KEY);localStorage.removeItem(EXPIRES_KEY);
     }
 
-
-    function clearMessage() {
-      message.textContent = "";
-      message.className =
-        "message";
-    }
-
-
-    function setLoading(isLoading) {
-      loginButton.disabled =
-        isLoading;
-
-      loginButton.classList.toggle(
-        "loading",
-        isLoading
-      );
-    }
-
-
-    // =====================================================
-    // FORMATO AUTOMATICO GV-##
-    // =====================================================
-
-    accessCodeInput.addEventListener(
-      "input",
-      () => {
-
-        let value =
-          accessCodeInput.value
-            .toUpperCase()
-            .replace(/\s/g, "");
-
-        // Permitir escribir solo el número:
-        // 02 -> GV-02
-        if (/^\d{1,2}$/.test(value)) {
-
-          value =
-            "GV-" +
-            value.padStart(2, "0");
-
-        }
-
-        accessCodeInput.value =
-          value.slice(0, 5);
-      }
-    );
-
-
-    // =====================================================
-    // COMPROBAR SESION EXISTENTE
-    // =====================================================
-
-    async function checkExistingSession() {
-
-      const token =
-        localStorage.getItem(
-          "gv_employee_session"
-        );
-
-      if (!token) {
-        return;
-      }
-
-      try {
-
-        const response =
-          await fetch(
-            SESSION_URL,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify({
-                  session_token:
-                    token
-                })
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          response.ok &&
-          data.authenticated === true
-        ) {
-
-          window.location.href =
-            "./dashboard.html";
-
-          return;
-        }
-
-
-        localStorage.removeItem(
-          "gv_employee_session"
-        );
-
-        localStorage.removeItem(
-          "gv_employee_session_expires"
-        );
-
-      } catch (error) {
-
-        console.error(
-          "No fue posible verificar sesión:",
-          error
-        );
-      }
-    }
-
-
-    // =====================================================
-    // LOGIN
-    // =====================================================
-
-    loginForm.addEventListener(
-      "submit",
-      async (event) => {
-
-        event.preventDefault();
-
-        clearMessage();
-
-
-        const fullName =
-          fullNameInput.value.trim();
-
-        const accessCode =
-          accessCodeInput.value
-            .trim()
-            .toUpperCase();
-
-
-        if (!fullName) {
-
-          showMessage(
-            "Ingresa tu nombre completo."
-          );
-
-          fullNameInput.focus();
-
-          return;
-        }
-
-
-        if (
-          !/^GV-(0[1-9]|[1-9][0-9])$/
-            .test(accessCode)
-        ) {
-
-          showMessage(
-            "Ingresa un código válido con formato GV-##."
-          );
-
-          accessCodeInput.focus();
-
-          return;
-        }
-
-
-        setLoading(true);
-
-
-        try {
-
-          const response =
-            await fetch(
-              LOGIN_URL,
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify({
-                    full_name:
-                      fullName,
-
-                    access_code:
-                      accessCode
-                  })
-              }
-            );
-
-
-          let data = null;
-
-
-          try {
-
-            data =
-              await response.json();
-
-          } catch {
-
-            throw new Error(
-              "Respuesta inválida del servidor"
-            );
-          }
-
-
-          if (
-            !response.ok ||
-            data.success !== true ||
-            !data.session_token
-          ) {
-
-            showMessage(
-              data?.message ||
-              "Nombre o código de acceso incorrectos."
-            );
-
-            return;
-          }
-
-
-          // =================================================
-          // GUARDAR SESION
-          // =================================================
-
-          localStorage.setItem(
-            "gv_employee_session",
-            data.session_token
-          );
-
-
-          if (data.expires_at) {
-
-            localStorage.setItem(
-              "gv_employee_session_expires",
-              data.expires_at
-            );
-
-          }
-
-
-          showMessage(
-            "Acceso correcto. Cargando capacitación...",
-            "success"
-          );
-
-
-          setTimeout(
-            () => {
-
-              window.location.href =
-                "./dashboard.html";
-
-            },
-            500
-          );
-
-
-        } catch (error) {
-
-          console.error(
-            "Error de acceso:",
-            error
-          );
-
-
-          showMessage(
-            "No fue posible conectar con el servidor. Intenta nuevamente."
-          );
-
-
-        } finally {
-
-          setLoading(false);
-
-        }
-
-      }
-    );
-
-
-    // =====================================================
-    // ARRANQUE
-    // =====================================================
-
+    $("loginForm").addEventListener("submit",async e=>{
+      e.preventDefault();clearMessage($("loginMessage"));
+      const full_name=$("fullName").value.trim();const access_code=$("accessCode").value.trim().toUpperCase();
+      if(!full_name)return showMessage($("loginMessage"),"Ingresa tu nombre completo.");
+      if(!/^GV-(0[1-9]|[1-9][0-9])$/.test(access_code))return showMessage($("loginMessage"),"Ingresa un código válido con formato GV-##.");
+      $("loginButton").disabled=true;$("loginButton").textContent="VERIFICANDO...";
+      try{const r=await fetch(LOGIN_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name,access_code})});const d=await r.json();if(!r.ok||d.success!==true||!d.session_token)return showMessage($("loginMessage"),d?.message||"Nombre o código incorrectos.");localStorage.setItem(SESSION_KEY,d.session_token);if(d.expires_at)localStorage.setItem(EXPIRES_KEY,d.expires_at);showMessage($("loginMessage"),"Acceso correcto. Cargando capacitación...","success");setTimeout(()=>location.href="./dashboard.html",400)}catch{showMessage($("loginMessage"),"No fue posible conectar con el servidor.")}finally{$("loginButton").disabled=false;$("loginButton").textContent="INGRESAR"}
+    });
+
+    $("registerForm").addEventListener("submit",async e=>{
+      e.preventDefault();clearMessage($("registerMessage"));
+      const full_name=$("registerName").value.trim();const area=$("area").value;const position=$("position").value;
+      if(!full_name||!area||!position)return showMessage($("registerMessage"),"Completa nombre, área y puesto.");
+      $("registerButton").disabled=true;$("registerButton").textContent="REGISTRANDO...";
+      try{const r=await fetch(REGISTER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name,area,position})});const d=await r.json();if(!r.ok||d.success!==true)return showMessage($("registerMessage"),d?.message||"No fue posible completar el registro.");
+        $("loginPanel").classList.remove("active");$("registerPanel").classList.remove("active");$("registerResult").classList.add("active");
+        $("generatedCode").textContent=d.employee.access_code;
+        $("employeeSummary").innerHTML=`<strong>${d.employee.full_name}</strong><br>${d.employee.position} · ${d.employee.area}`;
+        $("fullName").value=d.employee.full_name;$("accessCode").value=d.employee.access_code;
+      }catch{showMessage($("registerMessage"),"No fue posible conectar con el servidor.")}finally{$("registerButton").disabled=false;$("registerButton").textContent="REGISTRARME"}
+    });
+
+    $("goLoginButton").onclick=()=>{setTab("login");$("fullName").focus()};
     checkExistingSession();
   </script>
-
 </body>
 </html>
