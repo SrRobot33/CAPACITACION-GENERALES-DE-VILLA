@@ -63,7 +63,7 @@ function render(d){const e=getEmployee(d),c=getCourse(d),mods=getModules(d);$("e
 async function load(){const t=token();if(!t){location.href="./index.html";return}$("loading").style.display="flex";$("error").style.display="none";$("dashboard").style.display="none";try{const r=await fetch(DASHBOARD_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_token:t})});const d=await r.json();if(r.status===401||d.authenticated===false){logout();return}if(!r.ok||d.success!==true)throw new Error(d.message||"No fue posible cargar tu capacitación.");render(d)}catch(err){console.error(err);$("loading").style.display="none";$("error").style.display="block";$("errorText").textContent=err.message||"No fue posible conectar con el servidor."}}
 function openLesson(id){if(id)location.href=`./lesson.html?id=${encodeURIComponent(id)}`}
 function openExam(id){if(id)location.href=`./exam.html?id=${encodeURIComponent(id)}`}
-$("logout").addEventListener("click",logout);$("retry").addEventListener("click",load);$("certificateBtn").addEventListener("click",()=>location.href="./certificate.html");load();
+$("logout").addEventListener("click",logout);$("retry").addEventListener("click",load);$("certificateBtn").addEventListener("click",()=>location.href="./certificate-options.html");load();
 </script>
 </body>
 </html>
