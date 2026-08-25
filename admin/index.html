@@ -5,40 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instructor / Admin | Generales de Villa</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .auth-card{max-width:720px;margin:5vh auto 0}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#111;border:1px solid #303030;border-radius:12px;padding:5px;margin:24px 0}
+    .tab{border:0;background:transparent;color:#999;padding:12px;border-radius:8px;font-weight:900;cursor:pointer}
+    .tab.active{background:#c59a43;color:#111}
+    .auth-panel{display:none}.auth-panel.active{display:block}
+    .message{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;line-height:1.45}
+    .message.error{display:block;background:rgba(217,83,79,.14);border:1px solid rgba(217,83,79,.35);color:#ffd4d2}
+    .message.success{display:block;background:rgba(76,175,80,.14);border:1px solid rgba(76,175,80,.35);color:#d8f5da}
+    .help{font-size:.9rem;opacity:.75;line-height:1.55;margin-top:12px}
+    .password-rules{font-size:.82rem;opacity:.7;line-height:1.5;margin-top:-8px;margin-bottom:12px}
+  </style>
 </head>
 <body>
   <main class="page-shell">
-    <section class="panel" style="max-width:720px; margin-top:5vh;">
+    <section class="panel auth-card">
       <div class="topbar">
         <div>
           <p class="eyebrow">INSTRUCTOR / ADMIN</p>
-          <h1 style="font-size:2rem;">Panel de control</h1>
+          <h1 style="font-size:2rem;">Acceso al panel</h1>
         </div>
         <a class="button secondary" href="../">Volver</a>
       </div>
 
-      <p class="lead" style="margin-left:0;">Acceso protegido para gestión de empleados, progreso, autorizaciones de reintento y certificados.</p>
+      <p class="lead" style="margin-left:0;">Acceso protegido para personal previamente autorizado.</p>
 
-      <form class="form-grid" id="staff-login-form">
-        <div>
-          <label for="staff-user">Usuario</label>
-          <input id="staff-user" name="staff-user" autocomplete="username" required>
-        </div>
-        <div>
-          <label for="staff-password">Contraseña</label>
-          <input id="staff-password" name="staff-password" type="password" autocomplete="current-password" required>
-        </div>
-        <button type="submit">Ingresar al panel</button>
-      </form>
+      <div class="tabs">
+        <button id="loginTab" class="tab active" type="button">INICIAR SESIÓN</button>
+        <button id="activateTab" class="tab" type="button">PRIMER ACCESO</button>
+      </div>
 
-      <p id="staff-demo-message" class="footer-note" hidden>Acceso de demostración: usuarios y roles se conectarán a Supabase.</p>
+      <section id="loginPanel" class="auth-panel active">
+        <form class="form-grid" id="staff-login-form">
+          <div>
+            <label for="staff-user">Usuario</label>
+            <input id="staff-user" name="staff-user" autocomplete="username" required>
+          </div>
+          <div>
+            <label for="staff-password">Contraseña</label>
+            <input id="staff-password" name="staff-password" type="password" autocomplete="current-password" required>
+          </div>
+          <button id="loginButton" type="submit">Ingresar al panel</button>
+        </form>
+        <div id="loginMessage" class="message" role="alert"></div>
+      </section>
+
+      <section id="activatePanel" class="auth-panel">
+        <form class="form-grid" id="staff-activate-form">
+          <div>
+            <label for="activate-user">Usuario autorizado</label>
+            <input id="activate-user" autocomplete="username" required>
+          </div>
+          <div>
+            <label for="activation-code">Código temporal</label>
+            <input id="activation-code" autocomplete="one-time-code" placeholder="GV-ACT-000000" maxlength="13" required>
+          </div>
+          <div>
+            <label for="new-password">Nueva contraseña</label>
+            <input id="new-password" type="password" autocomplete="new-password" required>
+          </div>
+          <div>
+            <label for="confirm-password">Confirmar contraseña</label>
+            <input id="confirm-password" type="password" autocomplete="new-password" required>
+          </div>
+          <p class="password-rules">Mínimo 10 caracteres, con al menos una mayúscula, una minúscula y un número.</p>
+          <button id="activateButton" type="submit">ACTIVAR MI CUENTA</button>
+        </form>
+        <div id="activateMessage" class="message" role="alert"></div>
+        <p class="help">El código temporal es de un solo uso. Después de activar la cuenta, se ingresa únicamente con usuario y contraseña.</p>
+      </section>
     </section>
   </main>
 
   <script>
-    document.getElementById('staff-login-form').addEventListener('submit', function (event) {
-      event.preventDefault();
-      document.getElementById('staff-demo-message').hidden = false;
+    const EDGE="https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+    const LOGIN_URL=`${EDGE}/staff-login`;
+    const ACTIVATE_URL=`${EDGE}/staff-activate`;
+    const ACCESS_KEY="gv_staff_access_token";
+    const REFRESH_KEY="gv_staff_refresh_token";
+    const STAFF_KEY="gv_staff_profile";
+    const EXPIRES_KEY="gv_staff_expires_at";
+    const $=id=>document.getElementById(id);
+
+    function setTab(which){
+      const login=which==="login";
+      $("loginTab").classList.toggle("active",login);
+      $("activateTab").classList.toggle("active",!login);
+      $("loginPanel").classList.toggle("active",login);
+      $("activatePanel").classList.toggle("active",!login);
+    }
+    function show(el,text,type="error"){el.textContent=text;el.className=`message ${type}`}
+    function clear(el){el.textContent="";el.className="message"}
+
+    $("loginTab").onclick=()=>setTab("login");
+    $("activateTab").onclick=()=>setTab("activate");
+    $("activation-code").addEventListener("input",()=>{$("activation-code").value=$("activation-code").value.toUpperCase().replace(/\s/g,"").slice(0,13)});
+
+    $("staff-activate-form").addEventListener("submit",async e=>{
+      e.preventDefault();clear($("activateMessage"));
+      const username=$("activate-user").value.trim().toLowerCase();
+      const activation_code=$("activation-code").value.trim().toUpperCase();
+      const password=$("new-password").value;
+      const confirm=$("confirm-password").value;
+      if(password!==confirm)return show($("activateMessage"),"Las contraseñas no coinciden.");
+      $("activateButton").disabled=true;$("activateButton").textContent="ACTIVANDO...";
+      try{
+        const r=await fetch(ACTIVATE_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,activation_code,password})});
+        const d=await r.json();
+        if(!r.ok||d.success!==true)return show($("activateMessage"),d?.message||"No fue posible activar la cuenta.");
+        show($("activateMessage"),"Cuenta activada correctamente. Ya puedes iniciar sesión.","success");
+        $("staff-user").value=username;$("staff-activate-form").reset();
+        setTimeout(()=>{setTab("login");$("staff-password").focus()},700);
+      }catch{show($("activateMessage"),"No fue posible conectar con el servidor.")}
+      finally{$("activateButton").disabled=false;$("activateButton").textContent="ACTIVAR MI CUENTA"}
+    });
+
+    $("staff-login-form").addEventListener("submit",async e=>{
+      e.preventDefault();clear($("loginMessage"));
+      const username=$("staff-user").value.trim().toLowerCase();
+      const password=$("staff-password").value;
+      $("loginButton").disabled=true;$("loginButton").textContent="VERIFICANDO...";
+      try{
+        const r=await fetch(LOGIN_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password})});
+        const d=await r.json();
+        if(!r.ok||d.success!==true||!d.access_token)return show($("loginMessage"),d?.message||"Usuario o contraseña incorrectos.");
+        sessionStorage.setItem(ACCESS_KEY,d.access_token);
+        if(d.refresh_token)sessionStorage.setItem(REFRESH_KEY,d.refresh_token);
+        if(d.expires_at)sessionStorage.setItem(EXPIRES_KEY,String(d.expires_at));
+        sessionStorage.setItem(STAFF_KEY,JSON.stringify(d.staff||{}));
+        show($("loginMessage"),`Acceso correcto. Bienvenido, ${d.staff?.full_name||username}.`,"success");
+        setTimeout(()=>location.href="./dashboard.html",500);
+      }catch{show($("loginMessage"),"No fue posible conectar con el servidor.")}
+      finally{$("loginButton").disabled=false;$("loginButton").textContent="Ingresar al panel"}
     });
   </script>
 </body>
