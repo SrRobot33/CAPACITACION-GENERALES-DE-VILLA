@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel | Generales de Villa</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="panel" style="max-width:900px;margin-top:5vh;">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">INSTRUCTOR / ADMIN</p>
+          <h1 id="staffName" style="font-size:2rem;">Panel de control</h1>
+          <p id="staffMeta" class="footer-note" style="text-align:left;margin-top:8px;"></p>
+        </div>
+        <button id="logoutButton" class="button secondary" type="button">Cerrar sesión</button>
+      </div>
+
+      <p class="lead" style="margin-left:0;">Acceso activado correctamente. Aquí quedará el panel para empleados, progreso, reintentos, certificados y administración del personal autorizado.</p>
+
+      <div class="access-grid" style="margin-top:24px;">
+        <div class="access-card" style="cursor:default;">
+          <span class="access-label">PERSONAL</span>
+          <strong>Empleados y progreso</strong>
+          <small>Próximo bloque a implementar</small>
+        </div>
+        <div class="access-card" style="cursor:default;">
+          <span class="access-label">CAPACITACIÓN</span>
+          <strong>Reintentos y certificados</strong>
+          <small>Próximo bloque a implementar</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const ACCESS_KEY="gv_staff_access_token";
+    const REFRESH_KEY="gv_staff_refresh_token";
+    const STAFF_KEY="gv_staff_profile";
+    const EXPIRES_KEY="gv_staff_expires_at";
+    if(!sessionStorage.getItem(ACCESS_KEY)){location.href="./index.html"}
+    let staff={};
+    try{staff=JSON.parse(sessionStorage.getItem(STAFF_KEY)||"{}")||{}}catch{}
+    document.getElementById("staffName").textContent=staff.full_name||"Panel de control";
+    const role=staff.role==="admin"?"Administrador":staff.role==="instructor"?"Instructor":staff.role||"";
+    document.getElementById("staffMeta").textContent=[staff.username,staff.position,role].filter(Boolean).join(" · ");
+    document.getElementById("logoutButton").onclick=()=>{
+      sessionStorage.removeItem(ACCESS_KEY);sessionStorage.removeItem(REFRESH_KEY);sessionStorage.removeItem(STAFF_KEY);sessionStorage.removeItem(EXPIRES_KEY);location.href="./index.html";
+    };
+  </script>
+</body>
+</html>
