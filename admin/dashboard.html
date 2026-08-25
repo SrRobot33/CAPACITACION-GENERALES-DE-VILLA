@@ -4,51 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel | Generales de Villa</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--panel:#171717;--panel2:#202020;--border:#343434;--text:#f3f3f3;--muted:#9f9f9f;--gold:#c59a43;--gold2:#e2ba62;--green:#4caf50;--red:#d9534f;--orange:#d58b35}
+    body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#191919 0,#0c0c0c 360px);color:var(--text)}
+    button,input{font:inherit}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(14,14,14,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+    .topbar-inner{width:min(1180px,100%);margin:auto;min-height:72px;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}.brand-mark{width:46px;height:46px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:900}.brand strong{display:block}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.logout{border:1px solid #484848;background:transparent;color:#eee;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer}
+    .container{width:min(1180px,100%);margin:auto;padding:30px 20px 60px}.eyebrow{font-size:11px;color:var(--gold);font-weight:900;letter-spacing:.8px;text-transform:uppercase}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:24px}.head h1{font-size:clamp(26px,5vw,38px);margin:6px 0 7px}.meta{color:var(--muted);font-size:14px}
+    .loading,.error{padding:50px 20px;text-align:center;color:var(--muted)}.error{display:none;color:#efb3b1}.spinner{width:38px;height:38px;border:4px solid #303030;border-top-color:var(--gold);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    #content{display:none}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:26px}.stat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}.stat-label{color:var(--muted);font-size:12px;margin-bottom:8px}.stat-value{font-size:30px;font-weight:900}.stat small{display:block;margin-top:5px;color:#777}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.toolbar h2{font-size:21px}.search{width:min(390px,100%);height:44px;border:1px solid #3b3b3b;background:#111;color:#fff;border-radius:10px;padding:0 14px;outline:none}.search:focus{border-color:var(--gold)}
+    .employees{display:grid;gap:14px}.employee{background:var(--panel);border:1px solid var(--border);border-radius:15px;overflow:hidden}.employee-main{padding:17px 18px;display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(210px,1fr) 150px 150px auto;gap:14px;align-items:center}.employee-name{font-weight:900;font-size:15px;margin-bottom:4px}.employee-sub{font-size:12px;color:var(--muted);line-height:1.4}.course-name{font-size:13px;font-weight:800;margin-bottom:7px}.progress-line{height:7px;background:#303030;border-radius:999px;overflow:hidden}.progress-bar{height:100%;background:linear-gradient(90deg,#9e7429,var(--gold2));border-radius:999px}.progress-text{font-size:11px;color:var(--muted);margin-top:5px}.status{display:inline-block;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:900;border:1px solid #444;background:#222}.status.completed{color:#aee9b1;border-color:rgba(76,175,80,.35);background:rgba(76,175,80,.1)}.status.in_progress{color:#f0d392;border-color:rgba(197,154,67,.4);background:rgba(197,154,67,.1)}.status.not_started{color:#aaa}.status.review{color:#ffd3a2;border-color:rgba(213,139,53,.4);background:rgba(213,139,53,.1)}.details-btn{border:1px solid #4a4a4a;background:#232323;color:#eee;border-radius:8px;padding:9px 11px;font-size:11px;font-weight:900;cursor:pointer}.details-btn:hover{border-color:var(--gold)}
+    .details{display:none;border-top:1px solid var(--border);padding:18px;background:#121212}.employee.open .details{display:block}.detail-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}.detail-card{background:#191919;border:1px solid #303030;border-radius:12px;padding:15px}.detail-card h3{font-size:14px;margin-bottom:12px}.modules{display:grid;gap:8px}.module-row{display:grid;grid-template-columns:1fr 110px 80px;gap:10px;align-items:center;padding:10px;border:1px solid #303030;border-radius:9px;background:#151515}.module-title{font-size:12px;font-weight:800}.module-state{font-size:10px;color:var(--muted);text-transform:uppercase}.score{text-align:right;font-size:12px;font-weight:900}.cert{padding:12px;border:1px solid rgba(76,175,80,.3);background:rgba(76,175,80,.08);border-radius:9px;color:#c8efcb;font-size:12px;line-height:1.5}.review-note{padding:12px;border:1px solid rgba(213,139,53,.35);background:rgba(213,139,53,.08);border-radius:9px;color:#ffd8ad;font-size:12px;line-height:1.5}.empty{padding:24px;text-align:center;border:1px dashed #3a3a3a;border-radius:12px;color:var(--muted)}
+    @media(max-width:980px){.stats{grid-template-columns:repeat(2,1fr)}.employee-main{grid-template-columns:1.4fr 1fr 130px auto}.employee-main .course-col{grid-column:1/3}.detail-grid{grid-template-columns:1fr}}
+    @media(max-width:640px){.container{padding:22px 14px 40px}.topbar-inner{padding:10px 14px}.brand span{display:none}.stats{grid-template-columns:1fr 1fr}.toolbar{align-items:stretch;flex-direction:column}.search{width:100%}.employee-main{grid-template-columns:1fr}.employee-main .course-col{grid-column:auto}.details-btn{width:100%}.head{flex-direction:column}.module-row{grid-template-columns:1fr 90px 60px}}
+  </style>
 </head>
 <body>
-  <main class="page-shell">
-    <section class="panel" style="max-width:900px;margin-top:5vh;">
-      <div class="topbar">
-        <div>
-          <p class="eyebrow">INSTRUCTOR / ADMIN</p>
-          <h1 id="staffName" style="font-size:2rem;">Panel de control</h1>
-          <p id="staffMeta" class="footer-note" style="text-align:left;margin-top:8px;"></p>
-        </div>
-        <button id="logoutButton" class="button secondary" type="button">Cerrar sesión</button>
-      </div>
-
-      <p class="lead" style="margin-left:0;">Acceso activado correctamente. Aquí quedará el panel para empleados, progreso, reintentos, certificados y administración del personal autorizado.</p>
-
-      <div class="access-grid" style="margin-top:24px;">
-        <div class="access-card" style="cursor:default;">
-          <span class="access-label">PERSONAL</span>
-          <strong>Empleados y progreso</strong>
-          <small>Próximo bloque a implementar</small>
-        </div>
-        <div class="access-card" style="cursor:default;">
-          <span class="access-label">CAPACITACIÓN</span>
-          <strong>Reintentos y certificados</strong>
-          <small>Próximo bloque a implementar</small>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const ACCESS_KEY="gv_staff_access_token";
-    const REFRESH_KEY="gv_staff_refresh_token";
-    const STAFF_KEY="gv_staff_profile";
-    const EXPIRES_KEY="gv_staff_expires_at";
-    if(!sessionStorage.getItem(ACCESS_KEY)){location.href="./index.html"}
-    let staff={};
-    try{staff=JSON.parse(sessionStorage.getItem(STAFF_KEY)||"{}")||{}}catch{}
-    document.getElementById("staffName").textContent=staff.full_name||"Panel de control";
-    const role=staff.role==="admin"?"Administrador":staff.role==="instructor"?"Instructor":staff.role||"";
-    document.getElementById("staffMeta").textContent=[staff.username,staff.position,role].filter(Boolean).join(" · ");
-    document.getElementById("logoutButton").onclick=()=>{
-      sessionStorage.removeItem(ACCESS_KEY);sessionStorage.removeItem(REFRESH_KEY);sessionStorage.removeItem(STAFF_KEY);sessionStorage.removeItem(EXPIRES_KEY);location.href="./index.html";
-    };
-  </script>
+<header class="topbar"><div class="topbar-inner"><div class="brand"><div class="brand-mark">GV</div><div><strong>Generales de Villa</strong><span>Panel de Capacitación</span></div></div><button id="logoutButton" class="logout" type="button">Cerrar sesión</button></div></header>
+<main class="container">
+  <div class="head"><div><div class="eyebrow">Instructor / Admin</div><h1 id="staffName">Panel de control</h1><div id="staffMeta" class="meta"></div></div></div>
+  <section id="loading" class="loading"><div class="spinner"></div>Cargando empleados y progreso...</section>
+  <section id="error" class="error"></section>
+  <section id="content">
+    <div class="stats">
+      <article class="stat"><div class="stat-label">Empleados activos</div><div id="statEmployees" class="stat-value">0</div><small>registrados</small></article>
+      <article class="stat"><div class="stat-label">En capacitación</div><div id="statProgress" class="stat-value">0</div><small>con avance</small></article>
+      <article class="stat"><div class="stat-label">Cursos completados</div><div id="statCompleted" class="stat-value">0</div><small>con certificado</small></article>
+      <article class="stat"><div class="stat-label">Revisión requerida</div><div id="statReviews" class="stat-value">0</div><small>requieren atención</small></article>
+    </div>
+    <div class="toolbar"><div><div class="eyebrow">Personal en capacitación</div><h2>Empleados y progreso</h2></div><input id="searchInput" class="search" type="search" placeholder="Buscar por nombre, código, puesto o área"></div>
+    <div id="employees" class="employees"></div>
+  </section>
+</main>
+<script>
+const EDGE="https://gjpzelljjuvcawdphdwf.supabase.co/functions/v1";
+const DASHBOARD_URL=`${EDGE}/staff-dashboard`;
+const ACCESS_KEY="gv_staff_access_token",REFRESH_KEY="gv_staff_refresh_token",STAFF_KEY="gv_staff_profile",EXPIRES_KEY="gv_staff_expires_at";
+const $=id=>document.getElementById(id);let DATA=[];
+function logout(){sessionStorage.removeItem(ACCESS_KEY);sessionStorage.removeItem(REFRESH_KEY);sessionStorage.removeItem(STAFF_KEY);sessionStorage.removeItem(EXPIRES_KEY);location.href="./index.html"}
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function statusLabel(s){return ({completed:"COMPLETADO",in_progress:"EN CURSO",not_started:"NO INICIADO",blocked:"BLOQUEADO",passed:"APROBADO",failed:"NO APROBADO"})[s]||String(s||"").replaceAll("_"," ").toUpperCase()}
+function formatDate(d){if(!d)return"—";const [y,m,day]=String(d).slice(0,10).split("-");return y&&m&&day?`${day}/${m}/${y}`:"—"}
+function moduleHtml(m){const cls=m.status==="passed"?"completed":m.status==="failed"?"review":"";return `<div class="module-row"><div><div class="module-title">Módulo ${esc(m.module_number)} · ${esc(m.title||"")}</div><div class="module-state ${cls}">${statusLabel(m.status)}</div></div><div class="module-state">${m.attempt_number?`Intento ${esc(m.attempt_number)}`:"Sin examen"}</div><div class="score">${m.score!==null&&m.score!==undefined?`${esc(m.score)} / 100`:"—"}</div></div>`}
+function employeeHtml(e){const c=e.courses?.[0]||null;const pct=c?.lesson_progress_percent||0;const review=c?.review_required;const state=review?"review":c?.status||"not_started";const cert=c?.certificate;return `<article class="employee" data-search="${esc([e.full_name,e.access_code,e.position,e.area].join(" ").toLowerCase())}"><div class="employee-main"><div><div class="employee-name">${esc(e.full_name)}</div><div class="employee-sub">${esc(e.access_code)} · ${esc(e.position||"Sin puesto")} · ${esc(e.area||"Sin área")}</div><div class="employee-sub">Ingreso: ${formatDate(e.hire_date)}</div></div><div class="course-col"><div class="course-name">${esc(c?.title||"Sin curso asignado")}</div><div class="progress-line"><div class="progress-bar" style="width:${pct}%"></div></div><div class="progress-text">${esc(c?.completed_lessons||0)} de ${esc(c?.total_lessons||0)} lecciones · ${pct}%</div></div><div><span class="status ${state}">${review?"REVISIÓN":statusLabel(c?.status||"not_started")}</span></div><div class="employee-sub">${c?`${esc(c.passed_modules)} / ${esc(c.total_modules)} módulos aprobados`:"—"}</div><button class="details-btn" type="button">VER DETALLE</button></div><div class="details"><div class="detail-grid"><div class="detail-card"><h3>Avance por módulo</h3><div class="modules">${(c?.module_details||[]).map(moduleHtml).join("")||'<div class="empty">Sin información de módulos.</div>'}</div></div><div class="detail-card"><h3>Estado del expediente</h3>${review?'<div class="review-note">Este empleado requiere revisión antes de continuar con un nuevo intento.</div>':cert?`<div class="cert"><strong>Certificado emitido</strong><br>Folio: ${esc(cert.certificate_number)}<br>Calificación final: ${esc(cert.final_score)} / 100<br>Emitido: ${formatDate(cert.issued_at)}</div>`:`<div class="employee-sub">Curso: ${esc(c?.title||"—")}<br>Estado: ${statusLabel(c?.status||"not_started")}<br>Lecciones completadas: ${esc(c?.completed_lessons||0)} / ${esc(c?.total_lessons||0)}<br>Módulos aprobados: ${esc(c?.passed_modules||0)} / ${esc(c?.total_modules||0)}</div>`}</div></div></div></article>`}
+function renderList(){const q=$("searchInput").value.trim().toLowerCase();const filtered=DATA.filter(e=>[e.full_name,e.access_code,e.position,e.area].join(" ").toLowerCase().includes(q));$("employees").innerHTML=filtered.length?filtered.map(employeeHtml).join(""):'<div class="empty">No se encontraron empleados.</div>';document.querySelectorAll(".employee").forEach(card=>{card.querySelector(".details-btn")?.addEventListener("click",()=>{card.classList.toggle("open");card.querySelector(".details-btn").textContent=card.classList.contains("open")?"OCULTAR DETALLE":"VER DETALLE"})})}
+async function load(){const token=sessionStorage.getItem(ACCESS_KEY);if(!token){logout();return}try{const r=await fetch(DASHBOARD_URL,{headers:{Authorization:`Bearer ${token}`}});const d=await r.json();if(r.status===401||r.status===403){logout();return}if(!r.ok||d.success!==true)throw new Error(d.message||"No fue posible cargar el panel.");const staff=d.staff||{};$("staffName").textContent=staff.full_name||"Panel de control";const role=staff.role==="admin"?"Administrador":staff.role==="instructor"?"Instructor":staff.role||"";$("staffMeta").textContent=[staff.username,staff.position,role].filter(Boolean).join(" · ");$("statEmployees").textContent=d.summary?.employees??0;$("statProgress").textContent=d.summary?.in_progress??0;$("statCompleted").textContent=d.summary?.completed??0;$("statReviews").textContent=d.summary?.reviews_needed??0;DATA=Array.isArray(d.employees)?d.employees:[];renderList();$("loading").style.display="none";$("content").style.display="block"}catch(err){console.error(err);$("loading").style.display="none";$("error").style.display="block";$("error").textContent=err.message||"No fue posible conectar con el servidor."}}
+$("logoutButton").onclick=logout;$("searchInput").addEventListener("input",renderList);load();
+</script>
 </body>
 </html>
