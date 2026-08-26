@@ -18,7 +18,7 @@
 <article class="card"><span class="tag">VERSIÓN PERSONAL</span><h2>Formato moderno</h2><p>Versión visual de presentación para que el trabajador pueda conservarla o imprimirla si lo desea, sin sustituir el documento oficial.</p><div class="features"><div>Mismo folio y datos oficiales</div><div>Firmas reales de los responsables</div><div>Bloque de instructora y desarrollo</div><div>Diseño moderno en formato horizontal</div></div><button id="modern" class="open secondary" type="button">VER / DESCARGAR MODERNO</button></article>
 </section></main>
 <script>
-const SESSION="gv_employee_session";if(!localStorage.getItem(SESSION))location.href="./index.html";document.getElementById("back").onclick=()=>location.href="./dashboard.html";document.getElementById("official").onclick=()=>location.href="./certificate.html";document.getElementById("modern").onclick=()=>location.href="./certificate-modern.html";
+const SESSION="gv_employee_session";if(!localStorage.getItem(SESSION))location.href="./index.html";document.getElementById("back").onclick=()=>location.href="./dashboard.html";const CACHE_VERSION="20260825-2";document.getElementById("official").onclick=()=>location.href=`./certificate.html?v=${CACHE_VERSION}`;document.getElementById("modern").onclick=()=>location.href=`./certificate-modern.html?v=${CACHE_VERSION}`;
 </script>
 </body>
 </html>
